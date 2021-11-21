@@ -1,0 +1,32 @@
+{
+  "name": "audiophile",
+  "version": "1.0.0",
+  "description": "E-commerce Web App",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=development nodemon server.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Jose Furtado / JoseDigiweb",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-busboy": "^0.0.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "imagekit": "^3.2.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.7",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.13",
+    "slugify": "^1.6.1",
+    "validator": "^13.6.0"
+  }
+}

@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-manrope h-full relative;
+  }
+  h1 {
+    @apply text-h1 font-bold;
+  }
+  h2 {
+    @apply text-h2 font-bold;
+  }
+  h3 {
+    @apply text-h3 font-bold;
+  }
+  h4 {
+    @apply text-h4 font-bold;
+  }
+  h5 {
+    @apply text-h5 font-bold;
+  }
+  h6 {
+    @apply text-h6 font-bold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply flex items-center uppercase bg-primary text-white text-button font-bold py-3.5 px-8 border border-primary hover:bg-primary-light hover:border-primary-light transition duration-200 ease-in-out;
+  }
+
+  .btn-secondary {
+    @apply flex items-center uppercase bg-white text-black text-button font-bold py-3.5 px-8 border border-black hover:bg-black hover:text-white transition duration-200 ease-in-out;
+  }
+
+  .btn-shop {
+    @apply flex items-center uppercase text-black text-opacity-50 text-button font-bold hover:text-primary transition duration-200 ease-in-out;
+  }
+}
+
+@layer utilities {
+  .container {
+    @apply largeContainer:max-w-desk-cont tabletContainer:max-w-tab-cont mediumContainer:max-w-middle-cont smallContainer:max-w-mob-cont smallerContainer:max-w-sm-mob-cont mx-auto;
+  }
+
+  .container-tablet {
+    @apply container max-w-tab-cont;
+  }
+
+  .container-mobile {
+    @apply container max-w-mob-cont;
+  }
+
+  .container-tv {
+    @apply container max-w-tv-cont;
+  }
+  .container-dash {
+    @apply container max-w-dash-cont;
+  }
+  .dashboardLinks {
+    @apply mb-4 ml-2 mr-8 shadow hover:bg-primary-light hover:shadow-inner rounded;
+  }
+  .activeDashboardLink {
+    @apply bg-primary-light rounded;
+  }
+  .btn-dash {
+    @apply bg-primary py-2 px-6 text-white font-bold rounded-md shadow-md hover:shadow-inner;
+  }
+
+  .checkoutLabel {
+    @apply font-bold mb-2 tracking-tight;
+  }
+  .checkoutInputField {
+    @apply w-full pl-2 py-2 outline-none ring-2 ring-gray-200 focus:ring-2 focus:ring-primary rounded;
+  }
+  .checkoutSectionTitle {
+    @apply uppercase text-primary font-bold;
+  }
+}
