@@ -20,8 +20,6 @@ export const signUpAdmin = catchAsync(async (req, res, next) => {
     role: 'admin',
   };
 
-  console.log(adminData);
-
   const newAdmin = await User.create(adminData);
 
   res.status(201).json(newAdmin);
@@ -36,8 +34,6 @@ export const signInAdmin = catchAsync(async (req, res, next) => {
 
   //1) check if the password is correct
   const currentAdmin = await Admin.findOne({ email }).select('+password');
-
-  console.log(currentAdmin);
 
   if (
     !currentAdmin ||
