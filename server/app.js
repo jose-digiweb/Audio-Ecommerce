@@ -2,7 +2,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-// import busboy from 'connect-busboy';
+import compression from 'compression';
 
 //==> REQUESTING MODULES
 import productRouter from './routes/productRoutes.js';
@@ -22,6 +22,8 @@ app.use(cors());
 
 // Defining the Json as standard
 app.use(express.json({ limit: '10mb' }));
+
+app.use(compression());
 
 //==> CREATING ROUTES
 // Product Router
