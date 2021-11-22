@@ -5,6 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js"
   },
@@ -29,5 +30,8 @@
     "nodemon": "^2.0.13",
     "slugify": "^1.6.1",
     "validator": "^13.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
