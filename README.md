@@ -34,7 +34,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [https://audio-commerce.netlify.app/](https://your-live-site-url.com)
+- Live Site URL: [https://audio-commerce.netlify.app/](https://audio-commerce.netlify.app/)
 
 ### Built with
 #### Front-end:
