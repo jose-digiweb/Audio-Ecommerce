@@ -14,7 +14,7 @@ import CheckoutPage from './Pages/Checkout/CheckoutPage';
 import SuccessModal from './SuccessModal/SuccessModal';
 
 import Cart from './Cart/Cart';
-import NotFound from './reusables/NotFound';
+import NotFound from './Pages/NotFound/NotFound';
 
 function App() {
   const [showCart, setShowCart] = useState(false);

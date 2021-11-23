@@ -35,6 +35,8 @@ app.use('/api/v1/users', userRouter);
 // Admin Router
 app.use('/api/v1/admin', adminRouter);
 
+app.get('/', (req, res) => res.send('<h1>Welcome to Audiophile API!!!</h1>'));
+
 // Not found Routes Error Handling
 app.use('*', (req, res, next) => {
   const message = `Page not found! Please check if the URL (${req.originalUrl}) is correct.`;

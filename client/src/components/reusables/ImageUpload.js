@@ -4,7 +4,8 @@ import { IKContext, IKUpload } from 'imagekitio-react';
 const ImageUpload = ({ folderPath, fileName, coverImageData, setPicData }) => {
   const publicKey = 'public_BDqyaCrCNBcot/R+VnBaqtaWw8o=';
   let urlEndpoint = 'https://ik.imagekit.io/beevfgcytiq/';
-  const authenticationEndpoint = 'http://localhost:3001/api/v1/products/images';
+  const authenticationEndpoint =
+    'https://audiophille.herokuapp.com/api/v1/products/images';
 
   const onSuccess = res => {
     console.log(res);

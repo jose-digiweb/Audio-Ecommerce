@@ -6,7 +6,8 @@ const galleryUpload = (images, name, setGalleryImageData) => {
   const imagekit = new ImageKit({
     publicKey: 'public_BDqyaCrCNBcot/R+VnBaqtaWw8o=',
     urlEndpoint: `https://ik.imagekit.io/beevfgcytiq/`,
-    authenticationEndpoint: 'http://localhost:3001/api/v1/products/images',
+    authenticationEndpoint:
+      'https://audiophille.herokuapp.com/api/v1/products/images',
   });
 
   let imagesData = [];

@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:3001/api/v1' });
+const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1' });
 
-const API_NO_AUTH = axios.create({ baseURL: 'http://localhost:3001/api/v1' });
+const API_NO_AUTH = axios.create({
+  baseURL: 'https://audiophille.herokuapp.com/api/v1',
+});
 
 API.interceptors.request.use(req => {
   const { jwtToken } = JSON.parse(localStorage.getItem('loggedUser'));

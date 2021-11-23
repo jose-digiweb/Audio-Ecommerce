@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
 import Button from '../../../reusables/Button';
@@ -36,9 +36,9 @@ const HeroSection = ({ products }) => {
           </p>
 
           <div>
-            <Link to={`product/${featuredProduct?.slug}`}>
+            <NavLink to={`product/${featuredProduct?.slug}`}>
               <Button styles='btn-primary' text='see product' />
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
   "name": "client",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "https://audiophille.herokuapp.com/",
   "dependencies": {
     "@craco/craco": "^5.9.0",
     "@tailwindcss/aspect-ratio": "^0.3.0",
