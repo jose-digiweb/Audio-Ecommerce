@@ -52,20 +52,25 @@ export const signInAdmin = catchAsync(async (req, res, next) => {
 
 export const signUp = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
-    name: req.body.name,
+    name: `${req.body.firstName} ${req.body.lastName}`,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    passwordChangedAt: req.body.passwordChangedAt,
   });
 
   const jwtToken = generateJwtToken(newUser._id);
 
-  res.status(201).json({
-    status: 'success',
-    jwtToken,
-    newUser,
-  });
+  const loggedUser = {
+    name: newUser.name,
+    email: newUser.email,
+    role: newUser.role,
+    picture: newUser.picture,
+    id: newUser._id,
+    purchases: newUser?.purchases || [],
+    address: newUser?.address || {},
+  };
+
+  res.status(201).json({ jwtToken, loggedUser });
 });
 
 export const signIn = catchAsync(async (req, res, next) => {
@@ -76,7 +81,9 @@ export const signIn = catchAsync(async (req, res, next) => {
     return next(new globalError(400, 'Please provide  valid email and password!'));
 
   //1) check if the password is correct
-  const currentUser = await User.findOne({ email }).select('+password');
+  const currentUser = await User.findOne({ email })
+    .select('+password')
+    .populate('purchases');
 
   if (
     !currentUser ||
@@ -93,12 +100,11 @@ export const signIn = catchAsync(async (req, res, next) => {
     role: currentUser.role,
     picture: currentUser.picture,
     id: currentUser._id,
+    purchases: currentUser?.purchases || [],
+    address: currentUser?.address || {},
   };
 
-  res.status(202).json({
-    jwtToken,
-    loggedUser,
-  });
+  res.status(202).json({ jwtToken, loggedUser });
 });
 
 export const protectRoute = catchAsync(async (req, res, next) => {

@@ -29,6 +29,7 @@ const galleryUpload = (images, name, setGalleryImageData) => {
             imageName: res.name,
             imageId: res.fileId,
             width: res.width,
+            imageUrl: res.filePath,
           });
           setGalleryImageData([...imagesData]);
         }

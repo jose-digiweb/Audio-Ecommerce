@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 
 import Button from '../reusables/Button';
 import ImageRender from '../reusables/ImageRender';
 
-const LogInForm = ({ onSubmit }) => {
-  const [isSignUp, setIsSignUp] = useState(true);
-
+const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
   return (
     <div className='w-1/2 px-20 flex flex-col justify-center tablet:w-full'>
       <Link to='/'>
@@ -25,7 +23,7 @@ const LogInForm = ({ onSubmit }) => {
           <form className='pt-10 max-w-md' onSubmit={handleSubmit}>
             <h2 className='mb-14 text-white'>{isSignUp ? 'Sign In' : 'Sign Up'}</h2>
 
-            {!isSignUp && (
+            {!isSignUp ? (
               <div className='flex'>
                 <div className='flex flex-col mb-6 mr-4'>
                   <label className='checkoutLabel text-white flex flex-col'>
@@ -53,7 +51,7 @@ const LogInForm = ({ onSubmit }) => {
                   />
                 </div>
               </div>
-            )}
+            ) : null}
 
             <div className='flex flex-col mb-6'>
               <label className='checkoutLabel text-white flex flex-col'>Email</label>

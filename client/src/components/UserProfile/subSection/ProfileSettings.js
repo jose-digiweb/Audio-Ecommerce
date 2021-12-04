@@ -1,0 +1,175 @@
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-final-form';
+import { connect } from 'react-redux';
+
+import ImageUpload from '../../reusables/ImageUpload';
+import FormField from '../../reusables/FormField';
+import { getUser } from '../../../helper';
+import { updateMeAction } from '../../../Redux/actions/actions';
+
+const ProfileSettings = ({
+  isLogged,
+  setIsLogged,
+  updateMeAction,
+  setShowMessage,
+}) => {
+  const [initialValues, setInitialValues] = useState(isLogged?.loggedUser);
+  const [picData, setPicData] = useState([isLogged?.loggedUser?.picture]);
+  const [passwordReset, setPasswordReset] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { loggedUser } = await getUser();
+
+      setInitialValues(loggedUser);
+    })();
+  }, []);
+
+  const handleSubmit = Data => {
+    let formData;
+
+    Data?.newPassword
+      ? (formData = {
+          currentPassword: Data?.currentPassword,
+          newPassword: Data?.newPassword,
+          confirmPassword: Data?.confirmPassword,
+        })
+      : (formData = {
+          name: Data?.name,
+          email: Data?.email,
+          password: Data?.password,
+          picture: picData?.slice(-1)[0],
+          disposalPics: picData,
+        });
+
+    updateMeAction(
+      isLogged.loggedUser.id,
+      formData,
+      setInitialValues,
+      setShowMessage,
+      setIsLogged,
+      setPicData
+    );
+  };
+
+  return (
+    <div className='w-full h-full flex flex-col items-center justify-center pl-10'>
+      <Form initialValues={initialValues} validateOnBlur onSubmit={handleSubmit}>
+        {({ values, handleSubmit, valid, dirtyFields, form }) => (
+          <form className='w-full flex justify-center' onSubmit={handleSubmit}>
+            <div className='w-1/2 flex flex-col'>
+              <h5 className='mb-4 text-white pb-2 border-b-2'>
+                {passwordReset ? 'Reset Password' : 'Profile Settings'}
+              </h5>
+              <div className='flex mb-6'>
+                <div
+                  onClick={() => {
+                    setPasswordReset(true);
+                    // values.password = '';
+                  }}
+                  className='w-1/2 bg-gray-200 flex justify-center cursor-pointer mr-2 rounded shadow hover:shadow-inner hover:bg-gray-300'
+                >
+                  <p>Reset Password</p>
+                </div>
+                <div
+                  onClick={() => {
+                    setPasswordReset(false);
+                    // values.currentPassword = '';
+                    // values.newPassword = '';
+                    // values.confirmPassword = '';
+                  }}
+                  className='w-1/2 bg-gray-200 flex justify-center cursor-pointer ml-2 rounded shadow hover:shadow-inner hover:bg-gray-300'
+                >
+                  <p>Personal Details</p>
+                </div>
+              </div>
+
+              {!passwordReset ? (
+                <div>
+                  <FormField
+                    label='Name'
+                    name='name'
+                    type='text'
+                    component='input'
+                    placeholder='Name'
+                  />
+
+                  <FormField
+                    label='Email'
+                    name='email'
+                    type='text'
+                    component='input'
+                    placeholder='Email'
+                  />
+
+                  <div className='flex flex-col mb-4 '>
+                    <label
+                      htmlFor='profilePicture'
+                      className='text-white font-bold mb-1'
+                    >
+                      Upload Profile Picture
+                    </label>
+                    <ImageUpload
+                      fileName={`${values.name.split(' ').join('-')}${
+                        Math.random() * 1000000
+                      }`}
+                      folderPath={`users`}
+                      setPicData={setPicData}
+                      picData={picData}
+                      id='profilePicture'
+                    />
+                  </div>
+
+                  <FormField
+                    label='Password'
+                    name='password'
+                    type='password'
+                    component='input'
+                    placeholder='Password'
+                  />
+                </div>
+              ) : (
+                <div>
+                  <FormField
+                    label='Current Password'
+                    name='currentPassword'
+                    type='password'
+                    component='input'
+                    placeholder='Current Password'
+                  />
+
+                  <FormField
+                    label='New Password'
+                    name='newPassword'
+                    type='password'
+                    component='input'
+                    placeholder='New Password'
+                  />
+
+                  <FormField
+                    label='Confirm Password'
+                    name='confirmPassword'
+                    type='password'
+                    component='input'
+                    placeholder='Confirm Password'
+                  />
+                </div>
+              )}
+
+              <div className='w-full'>
+                <button
+                  className='w-full py-2 px-6 mt-2 text-white font-bold tracking-wider bg-primary hover:bg-opacity-70 rounded-md'
+                  type='submit'
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+      </Form>
+    </div>
+  );
+};
+
+export default connect(null, { updateMeAction })(ProfileSettings);

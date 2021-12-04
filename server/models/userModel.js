@@ -45,6 +45,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'user',
   },
+  address: {
+    street: String,
+    city: String,
+    zipCode: Number,
+    country: String,
+  },
+  phoneNumber: Number,
+  purchases: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Sales',
+    },
+  ],
 });
 
 userSchema.pre('save', async function (next) {

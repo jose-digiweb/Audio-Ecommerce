@@ -2,6 +2,8 @@ import * as API from '../../API/api';
 import * as type from '../types';
 
 import galleryUpload from '../../components/Dashboard/reusable/galleryUpload';
+import { getUser, setRenderMessage } from '../../helper';
+import * as config from '../../config';
 
 export const signUpAdminAction =
   (formData, handleMessage, setInitValues) => async dispatch => {
@@ -24,12 +26,31 @@ export const signUpAdminAction =
     }
   };
 
-export const logInAction =
-  (formData, history, handleMessage, desktopViewport) => async dispatch => {
+export const signupUserAction =
+  (formData, setShowMessage, setIsLogged, history) => async dispatch => {
     try {
-      const { data } = await API.logIn(formData, handleMessage);
+      const { data } = await API.signupUser(formData, setShowMessage);
+
+      setRenderMessage(setShowMessage, config.SUCCESS_SIGNUP);
+
+      localStorage.setItem('loggedUser', JSON.stringify(data));
+      setIsLogged(await getUser());
+
+      history.push('/');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const logInAction =
+  (formData, history, setShowMessage, desktopViewport, setIsLogged) =>
+  async dispatch => {
+    try {
+      const { data } = await API.logIn(formData, setShowMessage);
 
       dispatch({ type: type.LOGIN, payload: data });
+
+      setIsLogged(data);
 
       if (data.loggedUser.role === 'admin' && desktopViewport) {
         history.push('/admin/dashboard');
@@ -41,11 +62,13 @@ export const logInAction =
     }
   };
 
-export const logOutAction = setIsLogged => dispatch => {
+export const logOutAction = (history, setIsLogged, setCurrentUser) => dispatch => {
   localStorage.removeItem('loggedUser');
-  setIsLogged(null);
+  setIsLogged({});
+  setCurrentUser({});
+  history?.push('/');
 
-  dispatch({ type: type.LOGOUT, payload: null });
+  dispatch({ type: type.LOGOUT, payload: {} });
 };
 
 export const getProductsAction = () => async dispatch => {
@@ -95,15 +118,15 @@ export const editProductAction =
   };
 
 export const editUserAction =
-  (id, formData, handleMessage, setInitValues, setReRender) => async dispatch => {
+  (id, formData, setShowMessage, setInitValues, setReRender) => async dispatch => {
     try {
       let currType = !formData.newPassword ? type.EDIT_USER : type.PASSWORD_RESET;
 
-      const { data } = await API.editUser(id, formData, handleMessage);
+      const { data } = await API.editUser(id, formData, setShowMessage);
 
       dispatch({ type: currType, payload: data });
 
-      handleMessage('Details updated successfully!', 'green');
+      setRenderMessage(setShowMessage, config.SUCCESS_MESSAGE);
 
       setInitValues({
         firstName: data?.name?.split(' ')[0],
@@ -116,6 +139,33 @@ export const editUserAction =
       });
 
       setReRender(prev => !prev);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const updateMeAction =
+  (id, formData, setInitialValues, setShowMessage, setIsLogged, setPicData) =>
+  async dispatch => {
+    try {
+      const { data } = await API.editUser(id, formData, setShowMessage);
+
+      if (formData?.newPassword) {
+        localStorage.setItem('loggedUser', JSON.stringify(data));
+        setInitialValues(data?.loggedUser);
+        setIsLogged(await getUser());
+      }
+      if (formData?.street) {
+        setInitialValues(data?.address);
+        setIsLogged(await getUser());
+      }
+      if (formData?.email) {
+        setInitialValues(data);
+        setPicData([data.picture]);
+        setIsLogged(await getUser());
+      }
+
+      setRenderMessage(setShowMessage, config.SUCCESS_MESSAGE);
     } catch (err) {
       console.log(err);
     }

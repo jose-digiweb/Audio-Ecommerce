@@ -19,6 +19,7 @@ const router = express.Router();
 router.route('/signup').post(signUp);
 router.route('/signin').post(signIn);
 router.route('/').get(protectRoute, restrictTo('admin'), getUsers);
+
 router
   .route('/:id')
   .get(protectRoute, getUser)

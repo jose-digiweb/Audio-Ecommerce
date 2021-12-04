@@ -4,19 +4,31 @@ import { useMediaQuery } from 'react-responsive';
 import { useHistory } from 'react-router-dom';
 import validator from 'validator';
 
+import * as API from '../../../API/api';
 import ImageRender from '../../reusables/ImageRender';
 import { formatNumber, cartCalc } from '../../../helper';
 
-const CheckoutPage = ({ setShowSuccessModal }) => {
+const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
+  const user = JSON.parse(localStorage.getItem('loggedUser')) || {};
 
   const [total, grandTotal, vat, shippingCost] = cartCalc(products);
 
   const history = useHistory();
 
   const handleSubmit = formData => {
-    setShowSuccessModal(prev => !prev);
-    window.scroll(0, 0);
+    const saleData = {
+      products: products,
+      total,
+      paymentMethod: formData.paymentMethod,
+      client: {
+        name: formData.name,
+        email: formData.email,
+      },
+      user: user?.loggedUser?.id,
+    };
+
+    API.newSale(saleData, setShowMessage, setShowSuccessModal);
   };
 
   const desktopViewport = useMediaQuery({ minWidth: 1280 });

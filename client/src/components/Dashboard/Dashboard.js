@@ -13,10 +13,14 @@ import Settings from './Sections/Settings';
 import DashboardLink from './reusable/DashboardLink';
 import CreateAdmin from './Sections/CreateAdmin';
 import UserGreeting from './reusable/UserGreeting';
+import ImageRender from '../reusables/ImageRender';
+import ForbiddenPage from '../reusables/ForbiddenPage';
+import DesktopViewWarning from '../reusables/DesktopViewWarning';
+import { logOutAction } from '../../Redux/actions/actions';
 
 import Logo from '../reusables/Logo';
 
-export const Dashboard = props => {
+export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
   const history = useHistory();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('loggedUser')));
 
@@ -31,20 +35,7 @@ export const Dashboard = props => {
 
   return (
     <HashRouter basename='/'>
-      {!desktopViewport && (
-        <div className='w-full h-screen flex flex-col bg-auth-pattern bg-center  bg-cover justify-center items-center bg-primary text-white'>
-          <h1 className='bg-primary-light xs:text-h5 xxs:text-h5 md:text-h1 px-4 py-1 mb-4 rounded uppercase'>
-            Only Desktop
-          </h1>
-          <p className='mb-6'>Dashboard is only available in desktop!</p>
-          <button
-            onClick={() => history.push('/')}
-            className='btn-secondary rounded border-0'
-          >
-            Back to Home
-          </button>
-        </div>
-      )}
+      {!desktopViewport && <DesktopViewWarning />}
       {user?.loggedUser?.role === 'admin' ? (
         <div
           className={`${
@@ -57,8 +48,6 @@ export const Dashboard = props => {
             <UserGreeting user={user} />
 
             <div className='flex flex-col mt-32'>
-              <h5 className='text-white mb-4'>Menu</h5>
-
               <NavLink
                 exact
                 to='/'
@@ -143,6 +132,16 @@ export const Dashboard = props => {
                   text='Settings'
                 />
               </NavLink>
+
+              <div
+                onClick={() => logOutAction(history, setIsLogged, setCurProduct)}
+                className='dashboardLinks flex cursor-pointer bg-primary-light py-2 px-2 hover:bg-opacity-80'
+              >
+                <ImageRender url='shared/desktop' path='signOut.svg' />
+                <p className='ml-2 text-gray-dark hover:text-gray-900 font-bold'>
+                  Sign out
+                </p>
+              </div>
             </div>
 
             <Logo onClick={() => history.push('/')} />
@@ -176,23 +175,18 @@ export const Dashboard = props => {
                 </Route>
 
                 <Route path='/settings' exact>
-                  <Settings setReRender={setReRender} currentUser={user} />
+                  <Settings
+                    setShowMessage={setShowMessage}
+                    setReRender={setReRender}
+                    currentUser={user}
+                  />
                 </Route>
               </Switch>
             </div>
           </div>
         </div>
       ) : (
-        <div className='w-full h-screen flex flex-col bg-auth-pattern bg-center  bg-cover justify-center items-center bg-primary text-white'>
-          <h1 className='bg-primary-light px-4 py-1 mb-4 rounded'>Not Authorized</h1>
-          <p className='mb-6'>Restricted to Admins only!</p>
-          <button
-            onClick={() => history.push('/')}
-            className='btn-secondary rounded border-0'
-          >
-            Back to Home
-          </button>
-        </div>
+        <ForbiddenPage text='Restricted to Admins only!' btnText='Back to home' />
       )}
     </HashRouter>
   );
@@ -202,4 +196,4 @@ const mapStateToProps = state => {
   return { products: state.productsReducer.products };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { logOutAction })(Dashboard);

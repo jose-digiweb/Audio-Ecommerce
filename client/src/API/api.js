@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1' });
+import { setRenderMessage } from '../helper';
+import * as config from '../config';
+
+const API = axios.create({ baseURL: 'http://localhost:3001/api/v1' });
+// const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1' });
 
 const API_NO_AUTH = axios.create({
-  baseURL: 'https://audiophille.herokuapp.com/api/v1',
+  baseURL: 'http://localhost:3001/api/v1',
+  // baseURL: 'https://audiophille.herokuapp.com/api/v1',
 });
 
 API.interceptors.request.use(req => {
@@ -21,11 +26,19 @@ export const signupAdmin = (formData, handleMessage) =>
     console.log(err);
   });
 
-export const logIn = (formData, handleMessage) =>
+export const signupUser = (formData, setShowMessage) =>
+  API_NO_AUTH.post('/users/signup', formData).catch(err => {
+    const { message } = err.response.data;
+
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
+    console.log(err);
+  });
+
+export const logIn = (formData, setShowMessage) =>
   API_NO_AUTH.post('/users/signin', formData).catch(err => {
     const { message } = err.response.data;
 
-    handleMessage(message, 'red');
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
   });
 
 export const getProducts = () => API_NO_AUTH.get('/products');
@@ -46,9 +59,33 @@ export const editProduct = (id, formData, handleMessage) =>
     handleMessage(message, 'red');
   });
 
-export const editUser = (id, formData, handleMessage) =>
+export const editUser = (id, formData, setShowMessage) =>
   API.patch(`/users/${id}`, formData).catch(err => {
     const { message } = err.response.data;
 
-    handleMessage(message, 'red');
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
   });
+
+export const getUser = (id, formData, handleMessage) =>
+  API.get(`/users/${id}`, formData).catch(err => {
+    console.log(err);
+    const { message } = err.response.data;
+
+    if (handleMessage) {
+      handleMessage(message, 'red');
+    }
+  });
+
+export const newSale = async (saleData, setShowMessage, setShowSuccessModal) => {
+  try {
+    await API_NO_AUTH.post('/sales/new', saleData);
+
+    setShowSuccessModal(prev => !prev);
+    window.scroll(0, 0);
+    //
+  } catch (err) {
+    const { message } = err.response.data;
+
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
+  }
+};

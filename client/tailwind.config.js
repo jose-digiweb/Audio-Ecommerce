@@ -245,6 +245,7 @@ module.exports = {
 
       minWidth: {
         '1/4': '25%',
+        profileProduct: '1rem',
         '1/2': '50%',
         '3/4': '75%',
         1: '20rem',

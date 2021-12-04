@@ -64,6 +64,8 @@ class CreateProduct extends React.Component {
       includes: formData.includes,
     };
 
+    
+
     this.props.createProductAction(productData, this.handleMessage);
   };
 

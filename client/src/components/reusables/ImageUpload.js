@@ -1,7 +1,13 @@
 import React from 'react';
 import { IKContext, IKUpload } from 'imagekitio-react';
 
-const ImageUpload = ({ folderPath, fileName, coverImageData, setPicData }) => {
+const ImageUpload = ({
+  folderPath,
+  fileName,
+  coverImageData,
+  setPicData,
+  picData,
+}) => {
   const publicKey = 'public_BDqyaCrCNBcot/R+VnBaqtaWw8o=';
   let urlEndpoint = 'https://ik.imagekit.io/beevfgcytiq/';
   const authenticationEndpoint =
@@ -10,8 +16,12 @@ const ImageUpload = ({ folderPath, fileName, coverImageData, setPicData }) => {
   const onSuccess = res => {
     console.log(res);
 
-    if (folderPath.startsWith('products')) coverImageData(res);
-    else if (folderPath.startsWith('users')) setPicData(res);
+    if (folderPath.startsWith('products')) {
+      coverImageData(res);
+    } else if (folderPath.startsWith('users')) {
+      picData.push({ picName: res.name, picId: res.fileId });
+      setPicData(picData);
+    }
   };
 
   return (

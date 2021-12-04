@@ -6,6 +6,7 @@ import compression from 'compression';
 
 //==> REQUESTING MODULES
 import productRouter from './routes/productRoutes.js';
+import salesRouter from './routes/salesRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import errorController from './controllers/errorController.js';
@@ -28,6 +29,9 @@ app.use(compression());
 //==> CREATING ROUTES
 // Product Router
 app.use('/api/v1/products', productRouter);
+
+// Sell Router
+app.use('/api/v1/sales', salesRouter);
 
 // User Router
 app.use('/api/v1/users', userRouter);

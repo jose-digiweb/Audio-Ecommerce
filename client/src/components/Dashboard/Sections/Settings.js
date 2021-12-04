@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { connect } from 'react-redux';
 
-import ShowMessage from '../../reusables/ShowMessage';
 import { editUserAction } from '../../../Redux/actions/actions';
 import ImageUpload from '../../reusables/ImageUpload';
-import { MESSAGE_START, MESSAGE_SUCCESS, MESSAGE_ERROR } from '../../../config';
 
-const Settings = ({ editUserAction, currentUser, setReRender }) => {
+const Settings = ({
+  editUserAction,
+  currentUser,
+  setReRender,
+  setShowMessage,
+  setMessage,
+}) => {
   const [resetPassword, setResetPassword] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-  const [message, setMessage] = useState({});
+
   const [picData, setPicData] = useState(``);
   const [initValues, setInitValues] = useState(null);
-
-  useEffect(() => {}, [showMessage]);
-
-  const handleMessage = (text, color) => {
-    setMessage({ text: text, color: color });
-
-    setTimeout(() => {
-      setShowMessage(prev => !prev);
-
-      setTimeout(() => {
-        setShowMessage(prev => !prev);
-      }, `${color === 'red' ? MESSAGE_ERROR : MESSAGE_SUCCESS}`);
-    }, MESSAGE_START);
-  };
 
   const handleSubmit = formData => {
     const { id } = currentUser?.loggedUser;
@@ -42,7 +31,7 @@ const Settings = ({ editUserAction, currentUser, setReRender }) => {
     if (picData)
       userData.picture = [{ picName: picData?.name, picId: picData?.fileId }];
 
-    editUserAction(id, userData, handleMessage, setInitValues, setReRender);
+    editUserAction(id, userData, setShowMessage, setInitValues, setReRender);
   };
 
   const initialFormValues = {
@@ -61,10 +50,6 @@ const Settings = ({ editUserAction, currentUser, setReRender }) => {
         <div className='mb-8 pb-2'>
           <h2 className='text-white shadow py-2 px-4'>Account Settings</h2>
         </div>
-
-        {showMessage ? (
-          <ShowMessage message={message?.text} color={message?.color} />
-        ) : null}
 
         <Form
           onSubmit={handleSubmit}

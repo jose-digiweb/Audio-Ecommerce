@@ -48,6 +48,7 @@ const productSchema = new mongoose.Schema({
         type: String,
       },
       bigger: { type: Boolean, default: false },
+      imageUrl: String,
     },
   ],
   category: {
@@ -88,6 +89,7 @@ productSchema.plugin(uniqueValidator, {
 
 productSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
+  this.images.imageUrl = slugify(this.name, { lower: false });
 
   next();
 });

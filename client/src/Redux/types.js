@@ -10,3 +10,4 @@ export const PASSWORD_RESET = 'PASSWORD_RESET';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const EDIT_CART = 'EDIT_CART';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
+export const NEW_SALE = 'NEW_SALE';
