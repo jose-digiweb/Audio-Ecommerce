@@ -1,8 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const NotFound = () => {
-  const history = useHistory();
+  const location = useLocation();
+
+  console.log(location);
 
   return (
     <div className='absolute inset-0 h-screen bg-pattern-circle bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center bg-primary'>
@@ -17,14 +19,14 @@ const NotFound = () => {
             Please check if the url:{' '}
             <span className='font-bold underline'>
               {' '}
-              {`${history.location.pathname}`}
+              {`${'history.location.pathname'}`}
             </span>
             , is correct.
           </p>
 
           <div>
             <button
-              onClick={() => history.push('/')}
+              onClick={() => Navigate('/')}
               type='button'
               className='py-2 px-6 text-gray-dark border-2 font-bold bg-primary-light hover:bg-primary hover:text-white rounded-md shadow-md'
             >

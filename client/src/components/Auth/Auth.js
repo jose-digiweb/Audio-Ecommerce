@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 import LogInForm from './form';
-import { logInAction, signupUserAction } from '../../Redux/actions/actions';
+import { logInAction, signupUserAction } from '../../Redux/actions/authAction';
 
 const Auth = ({ logInAction, signupUserAction, setIsLogged, setShowMessage }) => {
   const [isSignUp, setIsSignUp] = useState(true);
 
-  const history = useHistory();
   const desktopViewport = useMediaQuery({ minWidth: 1280 });
+
+  const navigate = useNavigate();
 
   const handleSubmit = formData => {
     if (!isSignUp) {
-      signupUserAction(formData, setShowMessage, setIsLogged, history);
+      signupUserAction(formData, setShowMessage, setIsLogged, navigate);
     }
     if (isSignUp) {
-      logInAction(formData, history, setShowMessage, desktopViewport, setIsLogged);
+      logInAction(formData, navigate, setShowMessage, desktopViewport, setIsLogged);
     }
   };
 

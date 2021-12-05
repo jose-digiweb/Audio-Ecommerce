@@ -47,13 +47,15 @@ const SuggestionSection = ({ products }) => {
   const speakerUrl = speaker?.name.split(' ').join('-').toLowerCase();
 
   return (
-    <section className='w-full mb-28 mobile:mb-20'>
+    <section className='w-full mb-16 mobile:mb-20'>
       <MediaQuery minWidth={500}>
         <h3 className='uppercase text-center mb-10'>you may also like</h3>
       </MediaQuery>
+
       <MediaQuery maxWidth={499}>
         <h5 className='uppercase text-center mb-10'>you may also like</h5>
       </MediaQuery>
+
       <div className='container flex justify-between mobile:flex-col'>
         <div className='w-full mr-4 tablet:mr-2 rounded mobile:mb-16'>
           <div className='bg-gray w-full mb-8'>
@@ -63,6 +65,7 @@ const SuggestionSection = ({ products }) => {
               transform={imageTransform}
             />
           </div>
+
           <h5 className='text-center mb-8'>
             {headphone1.name
               .toLowerCase()
@@ -70,6 +73,7 @@ const SuggestionSection = ({ products }) => {
               .trim()
               .toUpperCase()}
           </h5>
+
           <div className='flex justify-center'>
             <Link to={`${headphone1.slug}`}>
               <button type='button' className='btn-primary flex'>
@@ -78,6 +82,7 @@ const SuggestionSection = ({ products }) => {
             </Link>
           </div>
         </div>
+
         <div className='w-full mr-4 tablet:mr-2 rounded mobile:mb-16'>
           <div className='bg-gray w-full mb-8'>
             <ImageRender
@@ -86,6 +91,7 @@ const SuggestionSection = ({ products }) => {
               transform={imageTransform}
             />
           </div>
+
           <h5 className='text-center mb-8'>
             {headphone2.name
               .toLowerCase()
@@ -93,6 +99,7 @@ const SuggestionSection = ({ products }) => {
               .trim()
               .toUpperCase()}
           </h5>
+
           <div className='flex justify-center'>
             <Link to={`${headphone2.slug}`}>
               <button type='button' className='btn-primary flex'>
@@ -101,6 +108,7 @@ const SuggestionSection = ({ products }) => {
             </Link>
           </div>
         </div>
+
         <div className='w-full rounded'>
           <div className='bg-gray w-full mb-8'>
             <ImageRender
@@ -109,12 +117,14 @@ const SuggestionSection = ({ products }) => {
               transform={imageTransform}
             />
           </div>
+
           <h5 className='text-center mb-8'>
             {`${speaker.name
               .toLowerCase()
               .split('speaker')[0]
               .trim()} speakers`.toUpperCase()}
           </h5>
+
           <div className='flex justify-center'>
             <Link to={`${speaker.slug}`}>
               <button type='button' className='btn-primary flex'>

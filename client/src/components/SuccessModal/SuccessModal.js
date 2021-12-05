@@ -1,11 +1,11 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
 import useScrollBlock from '../reusables/useScrollBlock';
-import { removeProductAction } from '../../Redux/actions/actions';
+import { removeProductAction } from '../../Redux/actions/cartAction';
 import ImageRender from '../reusables/ImageRender';
 import { SHIPPING_COST } from '../../config';
 
@@ -22,12 +22,12 @@ const SuccessModal = ({
     ?.reduce((total, num) => total + Math.round(num), 0);
   const grandTotal = Math.round(total + SHIPPING_COST);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     removeProductAction();
     setShowSuccessModal(prev => !prev);
-    history.push('/');
+    navigate('/');
   };
 
   if (showSuccessModal) blockScroll();

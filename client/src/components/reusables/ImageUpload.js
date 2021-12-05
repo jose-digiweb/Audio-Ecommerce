@@ -5,24 +5,14 @@ const ImageUpload = ({
   folderPath,
   fileName,
   coverImageData,
-  setPicData,
-  picData,
+  onImageUploadError,
+  onImageUploadSuccess,
+  setDisableButton,
 }) => {
   const publicKey = 'public_BDqyaCrCNBcot/R+VnBaqtaWw8o=';
   let urlEndpoint = 'https://ik.imagekit.io/beevfgcytiq/';
   const authenticationEndpoint =
     'https://audiophille.herokuapp.com/api/v1/products/images';
-
-  const onSuccess = res => {
-    console.log(res);
-
-    if (folderPath.startsWith('products')) {
-      coverImageData(res);
-    } else if (folderPath.startsWith('users')) {
-      picData.push({ picName: res.name, picId: res.fileId });
-      setPicData(picData);
-    }
-  };
 
   return (
     <IKContext
@@ -37,9 +27,10 @@ const ImageUpload = ({
         folder={`Audiophile/${folderPath}`}
         useUniqueFileName={false}
         isPrivateFile={false}
-        onError={err => console.log(err)}
-        onSuccess={onSuccess}
+        onError={onImageUploadError}
+        onSuccess={onImageUploadSuccess}
         accept='image/*'
+        onChange={() => setDisableButton(true)}
       />
     </IKContext>
   );

@@ -14,7 +14,7 @@ const ProductShow = ({ order, goTo, title, category, description, url, path }) =
   }
 
   return (
-    <div className='flex justify-between my-28 tablet:flex-col tablet:mb-10 mobile:flex-col mobile:my-16'>
+    <div className='flex justify-between mt-28 mb-10 tablet:flex-col tablet:mb-10 mobile:flex-col mobile:my-16'>
       <div
         className={`${
           order && desktopViewport

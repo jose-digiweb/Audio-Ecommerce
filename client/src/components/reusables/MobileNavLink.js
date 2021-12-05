@@ -15,9 +15,7 @@ const MobileNavLink = ({ url, path, text, href, styles, setShowMenu }) => {
         <ImageRender url={url} path={path} transform={imageNavStyle} />
       </div>
       <NavLink
-        activeClassName='text-primary'
         className={`bg-gray pb-4 pt-14 w-full flex flex-col items-center hover:text-primary rounded-md`}
-        exact
         to={href}
         onClick={() => setShowMenu(false)}
       >

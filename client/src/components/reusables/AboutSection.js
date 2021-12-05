@@ -1,7 +1,7 @@
 import React from 'react';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
-import ImageRender from '../../../reusables/ImageRender';
+import ImageRender from './ImageRender';
 
 const AboutSection = () => {
   const desktopViewport = useMediaQuery({ minWidth: 1280 });

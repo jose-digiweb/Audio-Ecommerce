@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { HashRouter, Switch, Route, NavLink, useHistory } from 'react-router-dom';
+import { HashRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 //==> COMPONENTS
@@ -16,12 +16,11 @@ import UserGreeting from './reusable/UserGreeting';
 import ImageRender from '../reusables/ImageRender';
 import ForbiddenPage from '../reusables/ForbiddenPage';
 import DesktopViewWarning from '../reusables/DesktopViewWarning';
-import { logOutAction } from '../../Redux/actions/actions';
+import { logOutAction } from '../../Redux/actions/authAction';
 
 import Logo from '../reusables/Logo';
 
 export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
-  const history = useHistory();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('loggedUser')));
 
   const [curProduct, setCurProduct] = useState();
@@ -48,84 +47,49 @@ export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
             <UserGreeting user={user} />
 
             <div className='flex flex-col mt-32'>
-              <NavLink
-                exact
-                to='/'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='dashboardWhite.svg'
                   text='Dashboard'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/products'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/products' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='inventoryWhite.svg'
                   text='Products'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/orders'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/orders' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='ordersWhite.svg'
                   text='Orders'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/create'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/create' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='addCircleWhite.svg'
                   text='Create Product'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/edit'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/edit' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='editWhite.svg'
                   text='Edit Product'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/add-admin'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/add-admin' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='addPersonWhite.svg'
                   text='Add New Admin'
                 />
               </NavLink>
-              <NavLink
-                exact
-                to='/settings'
-                className='dashboardLinks'
-                activeClassName='activeDashboardLink'
-              >
+              <NavLink to='/settings' className='dashboardLinks'>
                 <DashboardLink
                   url='dashboard/icons'
                   path='settingsWhite.svg'
@@ -134,7 +98,7 @@ export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
               </NavLink>
 
               <div
-                onClick={() => logOutAction(history, setIsLogged, setCurProduct)}
+                onClick={() => logOutAction(Navigate, setIsLogged, setCurProduct)}
                 className='dashboardLinks flex cursor-pointer bg-primary-light py-2 px-2 hover:bg-opacity-80'
               >
                 <ImageRender url='shared/desktop' path='signOut.svg' />
@@ -144,44 +108,41 @@ export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
               </div>
             </div>
 
-            <Logo onClick={() => history.push('/')} />
+            <Logo onClick={() => Navigate('/')} />
           </div>
 
           <div className='container-tv h-screen bg-primary-light'>
             <div className='w-full h-screen'>
-              <Switch>
-                <Route path='/' exact>
-                  <Overview />
-                </Route>
+              <Routes>
+                <Route path='/' element={<Overview />} />
 
-                <Route path='/products' exact>
-                  <Products setCurProduct={setCurProduct} />
-                </Route>
+                <Route
+                  path='/products'
+                  element={<Products setCurProduct={setCurProduct} />}
+                />
 
-                <Route path='/orders' exact>
-                  <Orders />
-                </Route>
+                <Route path='/orders' element={<Orders />} />
 
-                <Route path='/create' exact>
-                  <CreateProduct />
-                </Route>
+                <Route path='/create' element={<CreateProduct />} />
 
-                <Route path='/edit' exact>
-                  <EditProduct curProduct={curProduct} />
-                </Route>
+                <Route
+                  path='/edit'
+                  element={<EditProduct curProduct={curProduct} />}
+                />
 
-                <Route path='/add-admin' exact>
-                  <CreateAdmin />
-                </Route>
+                <Route path='/add-admin' element={<CreateAdmin />} />
 
-                <Route path='/settings' exact>
-                  <Settings
-                    setShowMessage={setShowMessage}
-                    setReRender={setReRender}
-                    currentUser={user}
-                  />
-                </Route>
-              </Switch>
+                <Route
+                  path='/settings'
+                  element={
+                    <Settings
+                      setShowMessage={setShowMessage}
+                      setReRender={setReRender}
+                      currentUser={user}
+                    />
+                  }
+                />
+              </Routes>
             </div>
           </div>
         </div>

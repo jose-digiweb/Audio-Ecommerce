@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
 import { connect } from 'react-redux';
 import arrayMutators from 'final-form-arrays';
@@ -9,12 +9,11 @@ import ImageUpload from '../../reusables/ImageUpload';
 import ImageRender from '../../reusables/ImageRender';
 import MyDropzone from '../../reusables/MyDropzone';
 
-import { editProductAction } from '../../../Redux/actions/actions';
+import { editProductAction } from '../../../Redux/actions/productAction';
 import ShowMessage from '../../reusables/ShowMessage';
 import { MESSAGE_START, MESSAGE_SUCCESS, MESSAGE_ERROR } from '../../../config';
 
 const EditProduct = ({ curProduct, editProductAction }) => {
-  const history = useHistory();
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState({});
 
@@ -31,7 +30,13 @@ const EditProduct = ({ curProduct, editProductAction }) => {
   };
 
   const handleSubmit = formData => {
-    editProductAction(curProduct?._id, formData, curProduct, history, handleMessage);
+    editProductAction(
+      curProduct?._id,
+      formData,
+      curProduct,
+      Navigate,
+      handleMessage
+    );
   };
 
   if (!curProduct)

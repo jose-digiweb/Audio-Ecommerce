@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-import { deleteProductAction } from '../../../Redux/actions/actions';
+import { deleteProductAction } from '../../../Redux/actions/productAction';
 
 const ProductField = ({
   setReRender,
@@ -10,7 +10,6 @@ const ProductField = ({
   deleteProductAction,
   setCurProduct,
 }) => {
-  const history = useHistory();
   const handleDeleteProduct = () => {
     deleteProductAction(product._id);
 
@@ -18,7 +17,7 @@ const ProductField = ({
   };
 
   const handleEdit = () => {
-    history.push('/edit');
+    Navigate('/edit');
 
     setCurProduct(product);
   };

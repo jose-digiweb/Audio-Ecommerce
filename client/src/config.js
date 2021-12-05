@@ -1,3 +1,9 @@
+export const activeNavStyle = { color: '#D87D4A' };
+export const activeProfileNavStyle = {
+  backgroundColor: '#D87D4A',
+  color: '#ffffff',
+};
+
 export const MESSAGE_SUCCESS = color => {
   return color === 'green' ? 5000 : 8000;
 };

@@ -66,14 +66,11 @@ export const editUser = (id, formData, setShowMessage) =>
     setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
   });
 
-export const getUser = (id, formData, handleMessage) =>
-  API.get(`/users/${id}`, formData).catch(err => {
-    console.log(err);
+export const getUser = id =>
+  API.get(`/users/${id}`).catch(err => {
     const { message } = err.response.data;
 
-    if (handleMessage) {
-      handleMessage(message, 'red');
-    }
+    console.log(message);
   });
 
 export const newSale = async (saleData, setShowMessage, setShowSuccessModal) => {

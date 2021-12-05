@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { activeProfileLink } from '../../../helper';
+
 const ProfileNavigation = ({ currentUser }) => {
   return (
     <div className='w-1/3 h-full flex flex-col justify-center'>
@@ -12,14 +14,14 @@ const ProfileNavigation = ({ currentUser }) => {
       <div className='w-full flex flex-col justify-center items-center'>
         <NavLink
           to={`/me/${currentUser?.id}`}
-          activeClassName='bg-primary text-green-100'
+          style={activeProfileLink}
           className={`w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white`}
         >
           <h6>Profile</h6>
         </NavLink>
         <NavLink
           to={`/my-orders/${currentUser?.id}`}
-          activeClassName='bg-primary text-green-100'
+          style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >
           <h6>My orders</h6>
@@ -27,7 +29,7 @@ const ProfileNavigation = ({ currentUser }) => {
 
         <NavLink
           to={`/shipping-details/${currentUser?.id}`}
-          activeClassName='bg-primary text-green-100'
+          style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >
           <h6>Shipping Details</h6>
@@ -35,7 +37,7 @@ const ProfileNavigation = ({ currentUser }) => {
 
         <NavLink
           to={`/profile-settings/${currentUser?.id}`}
-          activeClassName='bg-primary text-green-100'
+          style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >
           <h6>Profile settings</h6>

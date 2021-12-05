@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useMediaQuery } from 'react-responsive';
-import { useHistory } from 'react-router-dom';
-import validator from 'validator';
+import { useNavigate } from 'react-router-dom';
+import _ from 'lodash';
 
 import * as API from '../../../API/api';
 import ImageRender from '../../reusables/ImageRender';
-import { formatNumber, cartCalc } from '../../../helper';
+import {
+  formatNumber,
+  cartCalc,
+  getUser,
+  useValidate,
+  imageTransform,
+} from '../../../helper';
 
 const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
-  const user = JSON.parse(localStorage.getItem('loggedUser')) || {};
 
+  const [currentUser, setCurrentUser] = useState({});
   const [total, grandTotal, vat, shippingCost] = cartCalc(products);
+  const [validateField, buttonValidation] = useValidate();
 
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const { loggedUser } = await getUser();
+
+      setCurrentUser(loggedUser);
+    })();
+  }, []);
 
   const handleSubmit = formData => {
     const saleData = {
+      user: currentUser.id,
       products: products,
       total,
       paymentMethod: formData.paymentMethod,
@@ -25,66 +41,39 @@ const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
         name: formData.name,
         email: formData.email,
       },
-      user: user?.loggedUser?.id,
     };
 
     API.newSale(saleData, setShowMessage, setShowSuccessModal);
   };
 
-  const desktopViewport = useMediaQuery({ minWidth: 1280 });
-  const tabletViewport = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
-  const smallViewport = useMediaQuery({ maxWidth: 500 });
-
-  let imageTransform;
-  if (desktopViewport) {
-    imageTransform = { width: '70px', radius: 10 };
-  }
-  if (tabletViewport) {
-    imageTransform = { width: '70px', radius: 10 };
-  }
-  if (smallViewport) {
-    imageTransform = { width: '60px', radius: 10 };
-  }
-
-  const validateField = (name, value) => {
-    let result;
-    if (name === 'email') {
-      result = validator.isEmail(value || 'hey@gmail.com');
-    }
-    if (name === 'name') {
-      result = validator.isLength(value || 'hi there', { min: 6 });
-    }
-    if (name === 'zipCode') {
-      result = validator.isPostalCode(value || '12345', ['US']);
-    }
-    if (name === 'number') {
-      result = isNaN(value || 5);
-    }
-    return result;
-  };
-
-  const enableCheckoutButton = (valid, fields, values) => {
-    if (values.paymentMethod === 'eMoney') {
-      return valid && Object.keys(fields).length > 9 ? true : false;
-    }
-    if (values.paymentMethod === 'cashOnDelivery') {
-      return valid && Object.keys(fields).length > 7 ? true : false;
-    }
-  };
+  const deskView = useMediaQuery({ minWidth: 1280 });
+  const tabletView = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
+  const smallView = useMediaQuery({ maxWidth: 500 });
 
   return (
-    <main className='w-full bg-gray pb-24 pt-16 mobile:pt-6'>
+    <section className='w-full bg-gray pb-24 pt-16 mobile:pt-6'>
       <div className='container mb-8 '>
         <p
-          onClick={() => history.goBack()}
+          onClick={() => navigate(-1)}
           className='w-20 font-bold opacity-60 hover:text-primary cursor-pointer'
         >
           Go Back
         </p>
       </div>
 
-      <Form validateOnBlur onSubmit={handleSubmit}>
-        {({ values, handleSubmit, valid, dirtyFields }) => (
+      <Form
+        initialValues={{
+          name: _.isEmpty(currentUser) ? '' : currentUser.name,
+          email: _.isEmpty(currentUser) ? '' : currentUser.email,
+          address: _.isEmpty(currentUser) ? '' : currentUser.address.street,
+          zipCode: _.isEmpty(currentUser) ? '' : `${currentUser.address.zipCode}`,
+          city: _.isEmpty(currentUser) ? '' : currentUser.address.city,
+          country: _.isEmpty(currentUser) ? '' : currentUser.address.country,
+        }}
+        validateOnBlur
+        onSubmit={handleSubmit}
+      >
+        {({ values, handleSubmit, valid }) => (
           <form onSubmit={handleSubmit}>
             <div className='container flex justify-between tablet:flex-col mobile:flex-col'>
               <div className='w-2/3 bg-white mr-4 p-8 rounded-md tablet:w-full tablet:mb-6 mobile:w-full mobile:mb-8'>
@@ -377,7 +366,11 @@ const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
                             <ImageRender
                               url={`products/${product.name.split(' ').join('-')}`}
                               path={product.image}
-                              transform={imageTransform}
+                              transform={imageTransform(
+                                deskView,
+                                tabletView,
+                                smallView
+                              )}
                             />
                           </div>
 
@@ -436,7 +429,7 @@ const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
                 </div>
 
                 <div className='w-full'>
-                  {enableCheckoutButton(valid, dirtyFields, values) ? (
+                  {buttonValidation(valid, values) ? (
                     <button
                       type='submit'
                       className='w-full bg-primary text-white py-2 uppercase hover:bg-primary-light'
@@ -458,7 +451,7 @@ const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
           </form>
         )}
       </Form>
-    </main>
+    </section>
   );
 };
 

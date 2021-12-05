@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import ImageUpload from '../../reusables/ImageUpload';
 import FormField from '../../reusables/FormField';
-import { getUser } from '../../../helper';
-import { updateMeAction } from '../../../Redux/actions/actions';
+import { getUser, setRenderMessage } from '../../../helper';
+import { updateMeAction } from '../../../Redux/actions/userAction';
 
 const ProfileSettings = ({
   isLogged,
@@ -16,6 +16,7 @@ const ProfileSettings = ({
   const [initialValues, setInitialValues] = useState(isLogged?.loggedUser);
   const [picData, setPicData] = useState([isLogged?.loggedUser?.picture]);
   const [passwordReset, setPasswordReset] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -24,6 +25,22 @@ const ProfileSettings = ({
       setInitialValues(loggedUser);
     })();
   }, []);
+
+  const onImageUploadError = ({ message }) => {
+    setRenderMessage(setShowMessage, {
+      text: `${message}. Please try again!`,
+      color: 'red',
+    });
+
+    setTimeout(() => setDisableButton(false), 1500);
+  };
+
+  const onImageUploadSuccess = res => {
+    picData.push({ picName: res.name, picId: res.fileId });
+    setPicData(picData);
+
+    setDisableButton(false);
+  };
 
   const handleSubmit = Data => {
     let formData;
@@ -55,28 +72,26 @@ const ProfileSettings = ({
   return (
     <div className='w-full h-full flex flex-col items-center justify-center pl-10'>
       <Form initialValues={initialValues} validateOnBlur onSubmit={handleSubmit}>
-        {({ values, handleSubmit, valid, dirtyFields, form }) => (
+        {({ values, handleSubmit }) => (
           <form className='w-full flex justify-center' onSubmit={handleSubmit}>
             <div className='w-1/2 flex flex-col'>
               <h5 className='mb-4 text-white pb-2 border-b-2'>
                 {passwordReset ? 'Reset Password' : 'Profile Settings'}
               </h5>
+
               <div className='flex mb-6'>
                 <div
                   onClick={() => {
                     setPasswordReset(true);
-                    // values.password = '';
                   }}
                   className='w-1/2 bg-gray-200 flex justify-center cursor-pointer mr-2 rounded shadow hover:shadow-inner hover:bg-gray-300'
                 >
                   <p>Reset Password</p>
                 </div>
+
                 <div
                   onClick={() => {
                     setPasswordReset(false);
-                    // values.currentPassword = '';
-                    // values.newPassword = '';
-                    // values.confirmPassword = '';
                   }}
                   className='w-1/2 bg-gray-200 flex justify-center cursor-pointer ml-2 rounded shadow hover:shadow-inner hover:bg-gray-300'
                 >
@@ -117,6 +132,9 @@ const ProfileSettings = ({
                       setPicData={setPicData}
                       picData={picData}
                       id='profilePicture'
+                      onImageUploadError={onImageUploadError}
+                      onImageUploadSuccess={onImageUploadSuccess}
+                      setDisableButton={setDisableButton}
                     />
                   </div>
 
@@ -158,10 +176,11 @@ const ProfileSettings = ({
 
               <div className='w-full'>
                 <button
-                  className='w-full py-2 px-6 mt-2 text-white font-bold tracking-wider bg-primary hover:bg-opacity-70 rounded-md'
+                  disabled={disableButton}
+                  className='w-full py-2 px-6 mt-2 text-white font-bold tracking-wider bg-primary hover:bg-opacity-70 rounded-md disabled:opacity-50 disabled:cursor-wait'
                   type='submit'
                 >
-                  Submit
+                  {disableButton ? 'Loading image...' : 'Submit'}
                 </button>
               </div>
             </div>

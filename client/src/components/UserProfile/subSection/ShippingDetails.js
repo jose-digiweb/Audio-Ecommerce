@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import FormField from '../../reusables/FormField';
 import { getUser } from '../../../helper';
-import { updateMeAction } from '../../../Redux/actions/actions';
+import { updateMeAction } from '../../../Redux/actions/userAction';
 
 const ShippingDetails = ({
   isLogged,

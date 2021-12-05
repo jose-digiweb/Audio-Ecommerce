@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import HeroSection from './Sections/HeroSection';
 import CategoriesSection from '../../reusables/CategoriesSection';
 import FeaturedSection from './Sections/FeaturedSection';
-import AboutSection from './Sections/AboutSection';
-import { getProductsAction } from '../../../Redux/actions/actions';
+import { getProductsAction } from '../../../Redux/actions/productAction';
 
 const Home = ({ getProductsAction, products }) => {
   useEffect(() => {
@@ -15,12 +14,11 @@ const Home = ({ getProductsAction, products }) => {
   }, [getProductsAction]);
 
   return (
-    <main className='pb-56 tablet:pb-20 mobile:pb-28'>
+    <>
       <HeroSection products={products} />
       <CategoriesSection />
       <FeaturedSection products={products} />
-      <AboutSection />
-    </main>
+    </>
   );
 };
 

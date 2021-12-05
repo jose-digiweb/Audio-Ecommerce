@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import CategoryHero from '../../reusables/CategoryHero';
 import ProductsSection from './Sections/ProductsSection';
 import CategoriesSection from '../../reusables/CategoriesSection';
-import AboutSection from '../Home/Sections/AboutSection';
-import { getProductsAction } from '../../../Redux/actions/actions';
+import { getProductsAction } from '../../../Redux/actions/productAction';
 
 const Headphones = ({ getProductsAction, products }) => {
   useEffect(() => {
@@ -17,12 +16,11 @@ const Headphones = ({ getProductsAction, products }) => {
   const headphones = products?.filter(product => product.category === 'headphones');
 
   return (
-    <main className='container-desktop pb-28'>
+    <React.Fragment>
       <CategoryHero title='headphones' />
       <ProductsSection products={headphones} />
       <CategoriesSection />
-      <AboutSection />
-    </main>
+    </React.Fragment>
   );
 };
 

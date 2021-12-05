@@ -4,6 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import { useMediaQuery } from 'react-responsive';
 
 import MobileNavLink from '../../reusables/MobileNavLink';
+import { activeNavLink } from '../../../helper';
 
 const Nav = ({
   showMenu,
@@ -32,33 +33,29 @@ const Nav = ({
         <nav className={`text-white text-navLink font-bold uppercase`}>
           <div className='w-full flex container-desktop'>
             <NavLink
-              activeClassName='text-primary'
+              style={activeNavLink}
               className={`pr-9 hover:text-primary`}
-              exact
               to='/'
             >
               home
             </NavLink>
             <NavLink
-              activeClassName='text-primary'
+              style={activeNavLink}
               className={`pr-9 hover:text-primary`}
-              exact
               to='/headphones'
             >
               headphones
             </NavLink>
             <NavLink
-              activeClassName='text-primary'
+              style={activeNavLink}
               className={`pr-9 hover:text-primary`}
-              exact
               to='/speakers'
             >
               speakers
             </NavLink>
             <NavLink
-              activeClassName='text-primary'
+              style={activeNavLink}
               className={`hover:text-primary`}
-              exact
               to='/earphones'
             >
               earphones

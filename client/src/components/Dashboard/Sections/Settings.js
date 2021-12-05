@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { connect } from 'react-redux';
 
-import { editUserAction } from '../../../Redux/actions/actions';
+import { editUserAction } from '../../../Redux/actions/userAction';
 import ImageUpload from '../../reusables/ImageUpload';
 
 const Settings = ({

@@ -1,9 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const DesktopViewWarning = () => {
-  const history = useHistory();
-
   return (
     <div className='w-full h-screen flex flex-col bg-auth-pattern bg-center  bg-cover justify-center items-center bg-primary text-white'>
       <h1 className='bg-primary-light xs:text-h5 xxs:text-h5 md:text-h1 px-4 py-1 mb-4 rounded uppercase'>
@@ -11,7 +9,7 @@ const DesktopViewWarning = () => {
       </h1>
       <p className='mb-6'>Dashboard is only available in desktop!</p>
       <button
-        onClick={() => history.goBack()}
+        onClick={() => Navigate('/')}
         className='btn-secondary rounded border-0'
       >
         Back to Home

@@ -8,7 +8,10 @@ import { formatNumber, cartCalc } from '../../helper';
 import useScrollBlock from '../reusables/useScrollBlock';
 import CartQtyButton from '../reusables/CartQtyButton';
 import ImageRender from '../reusables/ImageRender';
-import { updateCartAction, removeProductAction } from '../../Redux/actions/actions';
+import {
+  updateCartAction,
+  removeProductAction,
+} from '../../Redux/actions/cartAction';
 
 const Cart = ({
   showCart,

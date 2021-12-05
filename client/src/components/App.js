@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import Header from './Header/Header';
 import SuccessModal from './SuccessModal/SuccessModal';
-import Cart from './Cart/Cart';
 import RenderMessage from './reusables/RenderMessage';
-import Routes from '../Routes/Routes';
+import MyRoutes from '../Routes/MyRoutes';
 import { getUser } from '../helper';
+import Cart from './Cart/Cart';
 
 const App = () => {
   const [isLogged, setIsLogged] = useState(getUser());
@@ -23,22 +22,21 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header
-        isLogged={isLogged}
-        setIsLogged={setIsLogged}
-        setShowCart={setShowCart}
-      />
       <Cart setShowCart={setShowCart} showCart={showCart} />
+
       <RenderMessage showMessage={showMessage} />
+
       <SuccessModal
         setShowSuccessModal={setShowSuccessModal}
         showSuccessModal={showSuccessModal}
       />
-      <Routes
+
+      <MyRoutes
         setShowSuccessModal={setShowSuccessModal}
         setShowMessage={setShowMessage}
         isLogged={isLogged}
         setIsLogged={setIsLogged}
+        setShowCart={setShowCart}
       />
     </BrowserRouter>
   );

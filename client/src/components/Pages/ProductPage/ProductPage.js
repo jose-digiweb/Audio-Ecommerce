@@ -7,8 +7,7 @@ import FeaturesSection from './ProductSections/FeaturesSection';
 import GallerySection from './ProductSections/GallerySection';
 import SuggestionSection from './ProductSections/SuggestionSection';
 import CategoriesSection from '../../reusables/CategoriesSection';
-import AboutSection from '../Home/Sections/AboutSection';
-import { getProductsAction } from '../../../Redux/actions/actions';
+import { getProductsAction } from '../../../Redux/actions/productAction';
 
 const ProductPage = ({ getProductsAction, products }) => {
   const { slug } = useParams();
@@ -22,14 +21,13 @@ const ProductPage = ({ getProductsAction, products }) => {
   const product = products?.filter(product => product?.slug === slug)[0];
 
   return (
-    <main className='w-full pb-32'>
+    <React.Fragment>
       <FirstSection product={product} />
       <FeaturesSection product={product} />
       <GallerySection product={product} />
       <SuggestionSection products={products} />
       <CategoriesSection />
-      <AboutSection />
-    </main>
+    </React.Fragment>
   );
 };
 

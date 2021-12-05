@@ -4,7 +4,7 @@ import CategoriesSectionItem from './CategoriesSectionItem';
 
 const CategoriesSection = () => {
   return (
-    <section className='w-full pt-10 pb-32 tablet:pb-8'>
+    <section className='w-full py-16 tablet:pb-8'>
       <div className='container flex mobile:flex-col'>
         <CategoriesSectionItem
           url='shared/desktop/'

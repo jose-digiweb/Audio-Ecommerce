@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getProductsAction } from '../../../Redux/actions/actions';
+import { getProductsAction } from '../../../Redux/actions/productAction';
 import ProductField from '../reusable/ProductField';
 
 const Products = ({ getProductsAction, products, setAction, setCurProduct }) => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
@@ -9,7 +9,7 @@ import CartQtyButton from '../../../reusables/CartQtyButton';
 import {
   addToCartAction,
   updateCartAction,
-} from '../../../../Redux/actions/actions';
+} from '../../../../Redux/actions/cartAction';
 
 const FirstSection = ({ addToCartAction, updateCartAction, product, cart }) => {
   const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -17,6 +17,8 @@ const FirstSection = ({ addToCartAction, updateCartAction, product, cart }) => {
     cartItems?.filter(item => item.id === product?._id)[0]?.quantity || 1;
 
   useEffect(() => {}, [cart]);
+
+  const navigate = useNavigate();
 
   const desktopViewport = useMediaQuery({ minWidth: 1280 });
   const tabletViewport = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
@@ -71,9 +73,9 @@ const FirstSection = ({ addToCartAction, updateCartAction, product, cart }) => {
   return (
     <section className='w-full pt-16 mobile:pt-4'>
       <div className='container'>
-        <NavLink to={`/${product?.category}`}>
-          <p>Go Back</p>
-        </NavLink>
+        <p onClick={() => navigate(-1)} className='cursor-pointer'>
+          Go Back
+        </p>
 
         <div className='flex justify-between pt-10 mb-36 mobile:flex-col mobile:mb-20 mobile:pt-6'>
           <div className={`w-1/2 mr-32 tablet:mr-2 mobile:w-full mobile:mb-10`}>

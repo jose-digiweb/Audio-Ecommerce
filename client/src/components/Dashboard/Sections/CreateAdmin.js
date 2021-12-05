@@ -3,7 +3,7 @@ import { Form, Field } from 'react-final-form';
 import { connect } from 'react-redux';
 
 import ShowMessage from '../../reusables/ShowMessage';
-import { signUpAdminAction } from '../../../Redux/actions/actions';
+import { signUpAdminAction } from '../../../Redux/actions/authAction';
 import { MESSAGE_START, MESSAGE_SUCCESS, MESSAGE_ERROR } from '../../../config';
 
 const CreateAdmin = ({ signUpAdminAction }) => {

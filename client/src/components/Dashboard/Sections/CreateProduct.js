@@ -7,7 +7,7 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import ImageUpload from '../../reusables/ImageUpload';
 import ImageRender from '../../reusables/ImageRender';
-import { createProductAction } from '../../../Redux/actions/actions';
+import { createProductAction } from '../../../Redux/actions/productAction';
 import MyDropzone from '../../reusables/MyDropzone';
 import ShowMessage from '../../reusables/ShowMessage';
 import { MESSAGE_START, MESSAGE_SUCCESS, MESSAGE_ERROR } from '../../../config';
@@ -63,8 +63,6 @@ class CreateProduct extends React.Component {
       images: this.state.galleryImageData,
       includes: formData.includes,
     };
-
-    
 
     this.props.createProductAction(productData, this.handleMessage);
   };
