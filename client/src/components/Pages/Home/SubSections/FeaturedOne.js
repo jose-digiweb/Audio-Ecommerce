@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
 import ImageRender from '../../../reusables/ImageRender';
@@ -8,19 +8,18 @@ import Button from '../../../reusables/Button';
 const FeaturedOne = ({ products }) => {
   const product = products?.filter(product => product.name === 'ZX9 Speaker')[0];
 
+  const navigate = useNavigate();
+
   const desktopViewport = useMediaQuery({ minWidth: 1280 });
-
   const tabletViewport = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
-
   const smallViewport = useMediaQuery({ maxWidth: 500 });
+
   let transformImage;
   let imageUrl;
-
   if (desktopViewport) {
     transformImage = { width: 380 };
     imageUrl = 'desktop';
   }
-
   if (tabletViewport) {
     transformImage = { width: 180 };
     imageUrl = 'tablet';
@@ -57,13 +56,12 @@ const FeaturedOne = ({ products }) => {
           remarkable sound.
         </p>
 
-        <Link to={`product/${product?.slug}`}>
-          <Button
-            type='button'
-            text='see product'
-            styles='btn-secondary border-0 bg-black text-white hover:bg-gray-dark'
-          />
-        </Link>
+        <Button
+          handleClick={() => navigate(`product/${product?.slug}`)}
+          type='button'
+          text='see product'
+          styles='btn-secondary border-0 bg-black text-white hover:bg-gray-dark'
+        />
       </div>
     </div>
   );

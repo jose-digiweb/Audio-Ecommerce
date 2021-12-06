@@ -13,14 +13,14 @@ const ProfileNavigation = ({ currentUser }) => {
 
       <div className='w-full flex flex-col justify-center items-center'>
         <NavLink
-          to={`/me/${currentUser?.id}`}
+          to={`me/${currentUser?.id}`}
           style={activeProfileLink}
           className={`w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white`}
         >
           <h6>Profile</h6>
         </NavLink>
         <NavLink
-          to={`/my-orders/${currentUser?.id}`}
+          to={`my-orders/${currentUser?.id}`}
           style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >
@@ -28,7 +28,7 @@ const ProfileNavigation = ({ currentUser }) => {
         </NavLink>
 
         <NavLink
-          to={`/shipping-details/${currentUser?.id}`}
+          to={`shipping-details/${currentUser?.id}`}
           style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >
@@ -36,7 +36,7 @@ const ProfileNavigation = ({ currentUser }) => {
         </NavLink>
 
         <NavLink
-          to={`/profile-settings/${currentUser?.id}`}
+          to={`profile-settings/${currentUser?.id}`}
           style={activeProfileLink}
           className='w-full flex justify-center items-center py-4 my-4 transition-all ease-in-out bg-gray text-gray-dark rounded-md cursor-pointer shadow-lg hover:bg-primary hover:text-white'
         >

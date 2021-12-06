@@ -1,10 +1,9 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const NotFound = () => {
-  const location = useLocation();
-
-  console.log(location);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <div className='absolute inset-0 h-screen bg-pattern-circle bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center bg-primary'>
@@ -15,18 +14,21 @@ const NotFound = () => {
           <p className='text-white text-xl font-bold tracking-wider'>
             Page Not Found!
           </p>
-          <p className='text-white text-lg tracking-widest mb-6'>
-            Please check if the url:{' '}
-            <span className='font-bold underline'>
-              {' '}
-              {`${'history.location.pathname'}`}
-            </span>
-            , is correct.
-          </p>
+          {pathname === '/users' ? (
+            <p className='text-white text-lg tracking-widest mb-6'>
+              To go to your profile, please click on the profile pic circle <br /> in
+              the top right corner to check your profile.
+            </p>
+          ) : (
+            <p className='text-white text-lg tracking-widest mb-6'>
+              Please check if the url:
+              <span className='font-bold underline'>{pathname}</span>, is correct.
+            </p>
+          )}
 
           <div>
             <button
-              onClick={() => Navigate('/')}
+              onClick={() => navigate('/')}
               type='button'
               className='py-2 px-6 text-gray-dark border-2 font-bold bg-primary-light hover:bg-primary hover:text-white rounded-md shadow-md'
             >

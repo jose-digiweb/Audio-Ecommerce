@@ -75,7 +75,7 @@ const SuggestionSection = ({ products }) => {
           </h5>
 
           <div className='flex justify-center'>
-            <Link to={`${headphone1.slug}`}>
+            <Link to={`/product/${headphone1.slug}`}>
               <button type='button' className='btn-primary flex'>
                 see product
               </button>
@@ -101,7 +101,7 @@ const SuggestionSection = ({ products }) => {
           </h5>
 
           <div className='flex justify-center'>
-            <Link to={`${headphone2.slug}`}>
+            <Link to={`/product/${headphone2.slug}`}>
               <button type='button' className='btn-primary flex'>
                 see product
               </button>
@@ -126,7 +126,7 @@ const SuggestionSection = ({ products }) => {
           </h5>
 
           <div className='flex justify-center'>
-            <Link to={`${speaker.slug}`}>
+            <Link to={`/product/${speaker.slug}`}>
               <button type='button' className='btn-primary flex'>
                 see product
               </button>

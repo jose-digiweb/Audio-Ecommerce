@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
 import Button from '../../../reusables/Button';
@@ -8,6 +8,8 @@ const HeroSection = ({ products }) => {
   const featuredProduct = products?.filter(
     product => product.name === 'XX99 Mark II Headphones'
   )[0];
+
+  const navigate = useNavigate();
 
   return (
     <section
@@ -36,9 +38,11 @@ const HeroSection = ({ products }) => {
           </p>
 
           <div>
-            <NavLink to={`product/${featuredProduct?.slug}`}>
-              <Button styles='btn-primary' text='see product' />
-            </NavLink>
+            <Button
+              handleClick={() => navigate(`/product/${featuredProduct?.slug}`)}
+              styles='btn-primary'
+              text='see product'
+            />
           </div>
         </div>
       </div>

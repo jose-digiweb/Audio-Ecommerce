@@ -64,19 +64,7 @@ export const headerStyle = () => {
   if (window.location.pathname === '/') return 'w-full absolute top-0 left-0 z-40';
 
   //
-  if (window.location.pathname.startsWith('/me'))
-    return 'w-full bg-black absolute top-0 left-0 z-40';
-
-  //
-  if (window.location.pathname.startsWith('/my-orders'))
-    return 'w-full bg-black absolute top-0 left-0 z-40';
-
-  //
-  if (window.location.pathname.startsWith('/shipping-details'))
-    return 'w-full bg-black absolute top-0 left-0 z-40';
-
-  //
-  if (window.location.pathname.startsWith('/profile-settings'))
+  if (window.location.pathname.startsWith('/users'))
     return 'w-full bg-black absolute top-0 left-0 z-40';
 
   //

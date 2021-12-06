@@ -14,7 +14,6 @@ import Profile from '../components/UserProfile/subSection/Profile';
 import MyOrders from '../components/UserProfile/subSection/MyOrders';
 import ShippingDetails from '../components/UserProfile/subSection/ShippingDetails';
 import ProfileSettings from '../components/UserProfile/subSection/ProfileSettings';
-import ForbiddenPage from '../components/reusables/ForbiddenPage';
 import UserProfile from '../components/UserProfile/UserProfile';
 import NotFound from '../components/Pages/NotFound/NotFound';
 import Layout from '../components/Pages/Layout/Layout';
@@ -27,20 +26,24 @@ const MyRoutes = ({
   setShowCart,
 }) => {
   return (
-    <Layout isLogged={isLogged} setIsLogged={setIsLogged} setShowCart={setShowCart}>
-      <Routes>
+    <Routes>
+      <Route
+        path='/'
+        element={
+          <Layout
+            isLogged={isLogged}
+            setIsLogged={setIsLogged}
+            setShowCart={setShowCart}
+          />
+        }
+      >
         <Route path='/' element={<Home />} />
-
-        <Route path='/headphones' element={<Headphones />} />
-
-        <Route path='/speakers' element={<Speakers />} />
-
-        <Route path='/earphones' element={<Earphones />} />
-
-        <Route path='/product/:slug' element={<ProductPage />} />
-
+        <Route path='headphones' element={<Headphones />} />
+        <Route path='speakers' element={<Speakers />} />
+        <Route path='earphones' element={<Earphones />} />
+        <Route path='product/:slug' element={<ProductPage />} />
         <Route
-          path='/checkout'
+          path='checkout'
           element={
             <CheckoutPage
               setShowSuccessModal={setShowSuccessModal}
@@ -48,100 +51,61 @@ const MyRoutes = ({
             />
           }
         />
+      </Route>
 
-        <Route
-          path='/auth'
-          element={
-            <Auth setIsLogged={setIsLogged} setShowMessage={setShowMessage} />
-          }
-        />
+      <Route
+        path='/auth'
+        element={<Auth setIsLogged={setIsLogged} setShowMessage={setShowMessage} />}
+      />
 
+      <Route
+        path='/admin/dashboard'
+        element={
+          <Dashboard
+            setShowMessage={setShowMessage}
+            isLogged={isLogged}
+            setIsLogged={setIsLogged}
+          />
+        }
+      />
+
+      <Route
+        path='/users'
+        element={
+          <UserProfile
+            isLogged={isLogged}
+            setIsLogged={setIsLogged}
+            setShowCart={setShowCart}
+          />
+        }
+      >
+        <Route path='/users' element={<NotFound />} />
+        <Route path='me/:id' element={<Profile isLogged={isLogged} />} />
+        <Route path='my-orders/:id' element={<MyOrders isLogged={isLogged} />} />
         <Route
-          path='/admin/dashboard'
+          path='shipping-details/:id'
           element={
-            <Dashboard
+            <ShippingDetails
               setShowMessage={setShowMessage}
               isLogged={isLogged}
               setIsLogged={setIsLogged}
             />
           }
         />
-
         <Route
-          path='/me/:id'
+          path='profile-settings/:id'
           element={
-            isLogged !== undefined && 'jwtToken' in isLogged ? (
-              <UserProfile isLogged={isLogged}>
-                <Profile isLogged={isLogged} />
-              </UserProfile>
-            ) : (
-              <ForbiddenPage
-                text='Only Registered Users! Please create an account or Login.'
-                btnText='Back to home'
-              />
-            )
+            <ProfileSettings
+              setIsLogged={setIsLogged}
+              isLogged={isLogged}
+              setShowMessage={setShowMessage}
+            />
           }
         />
+      </Route>
 
-        <Route
-          path='/my-orders/:id'
-          element={
-            isLogged !== undefined && 'jwtToken' in isLogged ? (
-              <UserProfile isLogged={isLogged}>
-                <MyOrders isLogged={isLogged} />
-              </UserProfile>
-            ) : (
-              <ForbiddenPage
-                text='Only Registered Users! Please create an account or Login.'
-                btnText='Back to home'
-              />
-            )
-          }
-        />
-
-        <Route
-          path='/shipping-details/:id'
-          element={
-            isLogged !== undefined && 'jwtToken' in isLogged ? (
-              <UserProfile isLogged={isLogged}>
-                <ShippingDetails
-                  setShowMessage={setShowMessage}
-                  isLogged={isLogged}
-                  setIsLogged={setIsLogged}
-                />
-              </UserProfile>
-            ) : (
-              <ForbiddenPage
-                text='Only Registered Users! Please create an account or Login.'
-                btnText='Back to home'
-              />
-            )
-          }
-        />
-
-        <Route
-          path='/profile-settings/:id'
-          element={
-            isLogged !== undefined && 'jwtToken' in isLogged ? (
-              <UserProfile isLogged={isLogged}>
-                <ProfileSettings
-                  setIsLogged={setIsLogged}
-                  isLogged={isLogged}
-                  setShowMessage={setShowMessage}
-                />
-              </UserProfile>
-            ) : (
-              <ForbiddenPage
-                text='Only Registered Users! Please create an account or Login.'
-                btnText='Back to home'
-              />
-            )
-          }
-        />
-
-        <Route element={<NotFound />} />
-      </Routes>
-    </Layout>
+      <Route path='*' element={<NotFound />} />
+    </Routes>
   );
 };
 

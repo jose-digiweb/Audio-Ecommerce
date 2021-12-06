@@ -1,16 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { FaFacebookSquare, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 import Logo from '../reusables/Logo';
 import Nav from '../reusables/Nav';
 
 const Footer = () => {
-  const location = useLocation();
-
-  if (location.pathname === '/auth' || location.pathname === '/admin/dashboard')
-    return null;
   return (
     <footer className='w-full bg-black text-white pb-10 tablet:pb-4'>
       <div className='container'>

@@ -113,7 +113,7 @@ const Header = ({ logOutAction, setShowCart, cart, isLogged, setIsLogged }) => {
                   {showUserMenu && (
                     <div className='absolute text-black bg-gray top-16 right-0 px-6 py-4 w-56 shadow-lg rounded'>
                       <NavLink
-                        to={`/me/${currentUser.id}`}
+                        to={`/users/me/${currentUser.id}`}
                         className='flex pt-2 pb-4 font-bold text-gray-500 hover:text-primary'
                       >
                         <ImageRender url='shared/desktop' path='profile.svg' />
@@ -121,7 +121,7 @@ const Header = ({ logOutAction, setShowCart, cart, isLogged, setIsLogged }) => {
                       </NavLink>
 
                       <NavLink
-                        to={`/my-orders/${currentUser.id}`}
+                        to={`/users/my-orders/${currentUser.id}`}
                         className='flex pt-2 pb-4 font-bold text-gray-500 hover:text-primary'
                       >
                         <ImageRender url='shared/desktop' path='shopBag.svg' />
@@ -129,7 +129,7 @@ const Header = ({ logOutAction, setShowCart, cart, isLogged, setIsLogged }) => {
                       </NavLink>
 
                       <NavLink
-                        to={`/profile-settings/${currentUser.id}`}
+                        to={`/users/profile-settings/${currentUser.id}`}
                         className='flex pt-2 pb-4 font-bold text-gray-500 hover:text-primary'
                       >
                         <ImageRender url='shared/desktop' path='setting.svg' />

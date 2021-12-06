@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 import ImageRender from '../../../reusables/ImageRender';
@@ -8,22 +8,19 @@ import Button from '../../../reusables/Button';
 const FeaturedThree = ({ products }) => {
   const product = products?.filter(product => product.name === 'YX1 Earphones')[0];
 
+  const navigate = useNavigate();
+
   const desktopViewport = useMediaQuery({ minWidth: 1280 });
-
   const tabletViewport = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
-
   const smallViewport = useMediaQuery({ maxWidth: 500 });
 
   let imageUrl;
-
   if (tabletViewport) {
     imageUrl = 'tablet';
   }
-
   if (desktopViewport) {
     imageUrl = 'desktop';
   }
-
   if (smallViewport) {
     imageUrl = 'mobile';
   }
@@ -43,13 +40,12 @@ const FeaturedThree = ({ products }) => {
           product?.name.split(' ')[0]
         } ${product?.category}`}</h4>
 
-        <Link to={`product/${product?.slug}`}>
-          <Button
-            type='button'
-            text='see product'
-            styles='btn-secondary bg-transparent hover:bg-black hover:text-white'
-          />
-        </Link>
+        <Button
+          handleClick={() => navigate(`product/${product?.slug}`)}
+          type='button'
+          text='see product'
+          styles='btn-secondary bg-transparent hover:bg-black hover:text-white'
+        />
       </div>
     </div>
   );
