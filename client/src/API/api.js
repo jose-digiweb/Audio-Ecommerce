@@ -4,7 +4,7 @@ import { setRenderMessage } from '../helper';
 import * as config from '../config';
 
 const API = axios.create({ baseURL: 'http://localhost:3001/api/v1' });
-// const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1' });
+// const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1'};
 
 const API_NO_AUTH = axios.create({
   baseURL: 'http://localhost:3001/api/v1',

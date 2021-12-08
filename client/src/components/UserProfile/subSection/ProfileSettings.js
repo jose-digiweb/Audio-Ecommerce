@@ -70,11 +70,11 @@ const ProfileSettings = ({
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center pl-10'>
+    <div className='w-full h-full flex flex-col items-center justify-center pl-10 tablet:pl-0 tablet:justify-start mobile:pl-0 mobile:justify-start'>
       <Form initialValues={initialValues} validateOnBlur onSubmit={handleSubmit}>
         {({ values, handleSubmit }) => (
           <form className='w-full flex justify-center' onSubmit={handleSubmit}>
-            <div className='w-1/2 flex flex-col'>
+            <div className='w-1/2 flex flex-col tablet:w-full mobile:w-full mobile:mb-6'>
               <h5 className='mb-4 text-white pb-2 border-b-2'>
                 {passwordReset ? 'Reset Password' : 'Profile Settings'}
               </h5>

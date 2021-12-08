@@ -19,14 +19,14 @@ const UserProfile = ({ isLogged, setIsLogged, setShowCart }) => {
 
   return (
     <React.Fragment>
-      {isLogged !== undefined && 'jwtToken' in isLogged ? (
-        <section className='w-full h-screen flex justify-center bg-primary-light px-20'>
-          <Header
-            isLogged={isLogged}
-            setIsLogged={setIsLogged}
-            setShowCart={setShowCart}
-          />
+      <Header
+        isLogged={isLogged}
+        setIsLogged={setIsLogged}
+        setShowCart={setShowCart}
+      />
 
+      {isLogged !== undefined && 'jwtToken' in isLogged ? (
+        <section className='w-full h-screen flex justify-center bg-primary-light px-20 tablet:flex-col tablet:items-center tablet:justify-start tablet:px-10 tablet:pt-24   mobile:flex-col mobile:items-center mobile:justify-start mobile:px-4 mobile:pt-20 mobile:h-full'>
           <ProfileNavigation currentUser={currentUser} />
 
           <Outlet />

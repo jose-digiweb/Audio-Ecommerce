@@ -1,20 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import { useMediaQuery } from 'react-responsive';
 
 import MobileNavLink from '../../reusables/MobileNavLink';
-import { activeNavLink } from '../../../helper';
+import { activeNavLink, View } from '../../../helper';
 
-const Nav = ({
-  showMenu,
-  setShowMenu,
-  tabletViewport,
-  smallViewport,
-  desktopViewport,
-}) => {
-  const tablet = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
-  const mobile = useMediaQuery({ maxWidth: 500 });
+const Nav = ({ showMenu, setShowMenu }) => {
+  const { desktop, tablet, mobile } = View();
 
   let height;
   if (tablet) height = -430;
@@ -29,7 +21,7 @@ const Nav = ({
 
   return (
     <React.Fragment>
-      {desktopViewport && (
+      {desktop && (
         <nav className={`text-white text-navLink font-bold uppercase`}>
           <div className='w-full flex container-desktop'>
             <NavLink
@@ -63,7 +55,7 @@ const Nav = ({
           </div>
         </nav>
       )}
-      {tabletViewport || smallViewport ? (
+      {tablet || mobile ? (
         <animated.nav
           style={showNav}
           className='w-full bg-white absolute top-20 left-0 rounded-b-2xl shadow-md mobile:py-8'

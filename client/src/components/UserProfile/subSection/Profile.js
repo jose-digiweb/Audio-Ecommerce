@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 
 import ImageRender from '../../reusables/ImageRender';
-import { getUser } from '../../../helper';
+import { getUser, View } from '../../../helper';
 
 const Profile = ({ isLogged }) => {
   const [currentUser, setCurrentUser] = useState(isLogged?.loggedUser);
   const purchases = currentUser?.purchases?.slice(-3);
   const shippingAddress = currentUser?.address || {};
+  const { profileNav } = View();
 
   useEffect(() => {
     (async () => {
@@ -19,33 +20,44 @@ const Profile = ({ isLogged }) => {
   const renderLastOrders = () => {
     return purchases?.map(purchase => (
       <div key={purchase?._id} className='flex justify-between items-center'>
-        <div className='flex items-center w-64'>
+        <div
+          className={`${
+            profileNav
+              ? 'flex flex-col items-start w-52 mobile:w-auto'
+              : 'flex items-center w-52 mobile:w-auto'
+          }`}
+        >
           <ImageRender
             url={`products/${purchase?.products[0].name.split(' ').join('-')}`}
             path={purchase?.products[0].image}
             transform={{ width: '70px', radius: 10 }}
           />
 
-          <div className='flex  flex-col'>
+          <div className={`flex pl-4`}>
             {purchase?.products?.length > 1 ? (
               <p>
-                {purchase?.products[0]?.name.split(' ')[0]}, and (
-                {purchase?.products?.length}) more...
+                {purchase?.products[0]?.name.split(' ')[0]}
+                <span className='mobile:hidden'>
+                  , and ({purchase?.products?.length}) more...
+                </span>
               </p>
             ) : (
               <p>{purchase?.products[0]?.name.split(' ')[0]}</p>
             )}
           </div>
         </div>
-        <div className='flex'>
-          <p className='mr-4 font-bold'>Quantity:</p>
-          <p>{purchase?.products[0]?.quantity}</p>
+
+        <div className={`flex  ${profileNav ? 'flex-col' : 'mobile:w-full'}`}>
+          <p className='mr-4 font-bold mobile:text-center mobile:mr-0'>Quantity:</p>
+          <p className='mobile:text-center'>{purchase?.products[0]?.quantity}</p>
         </div>
-        <div className='flex'>
-          <p className='mr-4 font-bold'>When:</p>
-          <p>{purchase?.date?.split('T')[0]}</p>
+
+        <div className={`flex  ${profileNav ? 'flex-col' : 'mobile:w-full'}`}>
+          <p className='mr-4 font-bold mobile:text-center mobile:mr-0'>When:</p>
+          <p className='mobile:text-center'>{purchase?.date?.split('T')[0]}</p>
         </div>
-        <div className='flex'>
+
+        <div className='flex tablet:hidden mobile:hidden'>
           <button className='py-2 px-4 my-2 bg-primary text-white rounded hover:bg-primary-light'>
             Buy again
           </button>
@@ -55,9 +67,9 @@ const Profile = ({ isLogged }) => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center pl-10'>
-      <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md'>
-        <h5 className='mb-2 pb-2 border-b-2'>Last 3 orders</h5>
+    <div className='w-full h-full flex flex-col items-center justify-center pl-10 tablet:pl-0 tablet:h-auto  mobile:pl-0 mobile:h-auto'>
+      <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md mobile:px-4'>
+        <h5 className='mb-2 pb-2 border-b-2 mobile:text-center'>Last 3 orders</h5>
 
         {renderLastOrders()}
 
@@ -75,7 +87,7 @@ const Profile = ({ isLogged }) => {
         </div>
       </div>
 
-      <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md'>
+      <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md mobile:hidden'>
         <h5 className='mb-2 pb-2 border-b-2'>Shipping address</h5>
 
         {_.isEmpty(shippingAddress) ? (
@@ -87,20 +99,20 @@ const Profile = ({ isLogged }) => {
           </div>
         ) : (
           <div className='flex justify-between items-center mt-2'>
-            <div className='flex'>
+            <div className='flex tablet:flex-col  mobile:flex-col'>
               <p className='mr-4 font-bold'>Street: </p>
               <p>{shippingAddress?.street}</p>
             </div>
-            <div className='flex'>
+            <div className='flex tablet:flex-col mobile:flex-col'>
               <p className='mr-4 font-bold'>Zip Code:</p>
               <p>{shippingAddress?.zipCode}</p>
             </div>
-            <div className='flex'>
+            <div className='flex tablet:flex-col mobile:flex-col'>
               <p className='mr-4 font-bold'>City:</p>
               <p>{shippingAddress?.city}</p>
             </div>
 
-            <div className='flex'>
+            <div className='flex tablet:flex-col mobile:flex-col'>
               <p className='mr-4 font-bold'>Country:</p>
               <p>{shippingAddress?.country}</p>
             </div>

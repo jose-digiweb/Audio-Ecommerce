@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive';
 import validator from 'validator';
 import _ from 'lodash';
 
@@ -61,11 +62,12 @@ export const getUser = async () => {
 };
 
 export const headerStyle = () => {
-  if (window.location.pathname === '/') return 'w-full absolute top-0 left-0 z-40';
+  if (window.location.pathname === '/')
+    return 'w-full absolute top-0 left-0 z-40 mobile:border-b-2 mobile:border-opacity-10';
 
   //
   if (window.location.pathname.startsWith('/users'))
-    return 'w-full bg-black absolute top-0 left-0 z-40';
+    return 'w-full absolute top-0 left-0 z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
 
   //
   if (window.location.pathname === '/auth') return 'hidden';
@@ -76,7 +78,7 @@ export const headerStyle = () => {
   //
   if (window.location.pathname === '/success') return 'hidden';
   //
-  else return 'w-full z-40 bg-black';
+  else return 'w-full z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
 };
 
 export const useValidate = () => {
@@ -123,4 +125,13 @@ export const imageTransform = (desk, tab, small) => {
   }
 
   return imageTransform;
+};
+
+export const View = () => {
+  const desktop = useMediaQuery({ minWidth: 1280 });
+  const tablet = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
+  const mobile = useMediaQuery({ maxWidth: 500 });
+  const profileNav = useMediaQuery({ maxWidth: 700 });
+
+  return { desktop, tablet, mobile, profileNav };
 };

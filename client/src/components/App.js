@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import SuccessModal from './SuccessModal/SuccessModal';
 import RenderMessage from './reusables/RenderMessage';
+
 import MyRoutes from '../Routes/MyRoutes';
 import { getUser } from '../helper';
 import Cart from './Cart/Cart';
@@ -23,9 +24,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Cart setShowCart={setShowCart} showCart={showCart} />
-
       <RenderMessage showMessage={showMessage} />
-
       <SuccessModal
         setShowSuccessModal={setShowSuccessModal}
         showSuccessModal={showSuccessModal}
