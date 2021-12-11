@@ -20,7 +20,7 @@ const Profile = () => {
 
   return (
     <div
-      className={`w-full h-screen flex flex-col items-center justify-center pt-24 pl-10 tablet:pl-0 tablet:h-auto  mobile:pl-0 mobile:h-auto`}
+      className={`w-full h-screen flex flex-col items-center justify-center pt-24 pl-10 tablet:pl-0 tablet:h-auto  mobile:pt-0 mobile:pl-0 mobile:h-auto`}
     >
       <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md mobile:px-4'>
         <h5 className='mb-2 pb-2 border-b-2 mobile:text-center'>Last 3 orders</h5>

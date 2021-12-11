@@ -18,7 +18,7 @@ const MyOrders = () => {
   }, []);
 
   return (
-    <div className='w-full h-screen flex flex-col items-center justify-center pt-24 pl-10 tablet:h-auto tablet:pl-0 tablet:justify-start  mobile:justify-start mobile:pl-0 mobile:h-screen'>
+    <div className='w-full h-screen flex flex-col items-center justify-center pt-24 pl-10 tablet:h-auto tablet:pl-0 tablet:justify-start  mobile:justify-start mobile:pt-0 mobile:pl-0 mobile:h-screen'>
       <div className='w-full'>
         <h5 className='text-white mb-2 pb-2 border-b-2'>My orders</h5>
       </div>
