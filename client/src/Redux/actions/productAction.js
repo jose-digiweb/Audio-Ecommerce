@@ -1,7 +1,7 @@
 import * as API from '../../API/api';
 import * as type from '../types';
 
-import galleryUpload from '../../components/Dashboard/reusable/galleryUpload';
+import galleryUpload from '../../Components/Dashboard/reusable/galleryUpload';
 
 export const getProductsAction = () => async dispatch => {
   const { data } = await API.getProducts();

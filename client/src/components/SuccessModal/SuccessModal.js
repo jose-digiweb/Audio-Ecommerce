@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
+import { AppContext } from '../../Contexts/AppContext';
 import useScrollBlock from '../reusables/useScrollBlock';
 import { removeProductAction } from '../../Redux/actions/cartAction';
 import ImageRender from '../reusables/ImageRender';
-import { SHIPPING_COST } from '../../config';
+import { formatNumber, cartCalc } from '../../helper';
 
-const SuccessModal = ({
-  showSuccessModal,
-  setShowSuccessModal,
-  removeProductAction,
-}) => {
+const SuccessModal = ({ removeProductAction }) => {
+  const { showSuccessModal, setShowSuccessModal } = useContext(AppContext);
   const [blockScroll, allowScroll] = useScrollBlock();
 
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
-  const total = products
-    ?.map(item => item.price * item.quantity)
-    ?.reduce((total, num) => total + Math.round(num), 0);
-  const grandTotal = Math.round(total + SHIPPING_COST);
+  const [total, grandTotal] = cartCalc(products);
 
   const navigate = useNavigate();
 
@@ -81,7 +76,7 @@ const SuccessModal = ({
                       : products[0]?.name.split(' ')[0]}
                   </span>
                   <span className='text-gray-500 text-sm font-bold'>
-                    {`$ ${new Intl.NumberFormat().format(products[0]?.price)}`}
+                    {`$ ${formatNumber(total)}`}
                   </span>
                 </div>
               </div>
@@ -108,7 +103,7 @@ const SuccessModal = ({
             </div>
             <div>
               <span className='text-white text-sm uppercase'>
-                $ {new Intl.NumberFormat().format(grandTotal)}
+                $ {formatNumber(grandTotal)}
               </span>
             </div>
           </div>

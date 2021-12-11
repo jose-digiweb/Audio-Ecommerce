@@ -40,7 +40,7 @@ export const cartCalc = products => {
     ?.map(item => item.price * item.quantity)
     ?.reduce((total, num) => total + Math.round(num), 0);
   const vat = Math.round((total * 20) / 100);
-  const grandTotal = Math.round(total + SHIPPING_COST);
+  const grandTotal = Math.round(total + 50);
   const shippingCost = SHIPPING_COST;
 
   return [total, grandTotal, vat, shippingCost];
@@ -61,22 +61,22 @@ export const getUser = async () => {
   }
 };
 
-export const headerStyle = () => {
-  if (window.location.pathname === '/')
+export const headerStyle = location => {
+  if (location?.pathname === '/')
     return 'w-full absolute top-0 left-0 z-40 mobile:border-b-2 mobile:border-opacity-10';
 
   //
-  if (window.location.pathname.startsWith('/users'))
+  if (location?.pathname.startsWith('/users'))
     return 'w-full absolute top-0 left-0 z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
 
   //
-  if (window.location.pathname === '/auth') return 'hidden';
+  if (location?.pathname === '/auth') return 'hidden';
 
   //
-  if (window.location.pathname === '/admin/dashboard') return 'hidden';
+  if (location?.pathname === '/admin/dashboard') return 'hidden';
 
   //
-  if (window.location.pathname === '/success') return 'hidden';
+  if (location?.pathname === '/success') return 'hidden';
   //
   else return 'w-full z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
 };

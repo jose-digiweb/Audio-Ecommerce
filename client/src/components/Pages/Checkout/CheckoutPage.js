@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import _ from 'lodash';
 
+import { AppContext } from '../../../Contexts/AppContext';
 import * as API from '../../../API/api';
 import ImageRender from '../../reusables/ImageRender';
 import {
@@ -14,12 +15,13 @@ import {
   imageTransform,
 } from '../../../helper';
 
-const CheckoutPage = ({ setShowSuccessModal, setShowMessage }) => {
+const CheckoutPage = () => {
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
 
   const [currentUser, setCurrentUser] = useState({});
   const [total, grandTotal, vat, shippingCost] = cartCalc(products);
   const [validateField, buttonValidation] = useValidate();
+  const { setShowSuccessModal, setShowMessage } = useContext(AppContext);
 
   const navigate = useNavigate();
 

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 
+import { AppContext } from '../../../Contexts/AppContext';
 import FormField from '../../reusables/FormField';
 import { getUser } from '../../../helper';
 import { updateMeAction } from '../../../Redux/actions/userAction';
 
-const ShippingDetails = ({
-  isLogged,
-  setIsLogged,
-  updateMeAction,
-  setShowMessage,
-}) => {
+const ShippingDetails = ({ updateMeAction, setShowMessage }) => {
+  const { isLogged, setIsLogged } = useContext(AppContext);
   const [initialValues, setInitialValues] = useState(isLogged?.loggedUser?.address);
 
   useEffect(() => {
@@ -33,9 +30,9 @@ const ShippingDetails = ({
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center pl-10 tablet:pl-0 tablet:justify-start mobile:pl-0 mobile:justify-start'>
+    <div className='w-full h-full flex flex-col items-center justify-center pt-24 pl-10 tablet:pl-0 tablet:justify-start mobile:pl-0 mobile:justify-start'>
       <Form initialValues={initialValues} validateOnBlur onSubmit={handleSubmit}>
-        {({ values, handleSubmit, valid, dirtyFields, form }) => (
+        {({ handleSubmit }) => (
           <form className='w-full flex justify-center' onSubmit={handleSubmit}>
             <div className='w-1/2 flex flex-col tablet:w-full mobile:w-full mobile:pb-6'>
               <h5 className='mb-6 text-white pb-2 border-b-2'>Shipping Address</h5>

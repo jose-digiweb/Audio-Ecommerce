@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
@@ -17,10 +17,12 @@ import ImageRender from '../reusables/ImageRender';
 import ForbiddenPage from '../reusables/ForbiddenPage';
 import DesktopViewWarning from '../reusables/DesktopViewWarning';
 import { logOutAction } from '../../Redux/actions/authAction';
+import { AppContext } from '../../Contexts/AppContext';
 
 import Logo from '../reusables/Logo';
 
-export const Dashboard = ({ logOutAction, setIsLogged, setShowMessage }) => {
+export const Dashboard = ({ logOutAction }) => {
+  const { setIsLogged, setShowMessage } = useContext(AppContext);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('loggedUser')));
 
   const [curProduct, setCurProduct] = useState();

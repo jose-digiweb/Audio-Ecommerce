@@ -1,29 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { createPortal } from 'react-dom';
 import { NavLink } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
 
-import { formatNumber, cartCalc } from '../../helper';
+import { AppContext } from '../../Contexts/AppContext';
+import { formatNumber, cartCalc, View } from '../../helper';
 import useScrollBlock from '../reusables/useScrollBlock';
 import CartQtyButton from '../reusables/CartQtyButton';
 import ImageRender from '../reusables/ImageRender';
-import {
-  updateCartAction,
-  removeProductAction,
-} from '../../Redux/actions/cartAction';
+import * as cart from '../../Redux/actions/cartAction';
 
-const Cart = ({
-  showCart,
-  setShowCart,
-  updateCartAction,
-  removeProductAction,
-  cart,
-}) => {
+const Cart = ({ updateCartAction, removeProductAction, cart }) => {
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
 
+  const { desktop, mobile, tablet } = View();
   const [blockScroll, allowScroll] = useScrollBlock();
   const [total] = cartCalc(products);
+  const { showCart, setShowCart } = useContext(AppContext);
 
   useEffect(() => {}, [cart]);
 
@@ -44,20 +37,20 @@ const Cart = ({
     setShowCart(prev => !prev);
   };
 
-  const desktopViewport = useMediaQuery({ minWidth: 1280 });
-  const tabletViewport = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
-  const smallViewport = useMediaQuery({ maxWidth: 500 });
+  const imageTransform = () => {
+    let imageTransform;
+    if (desktop) {
+      imageTransform = { width: '70px', radius: 10 };
+    }
+    if (tablet) {
+      imageTransform = { width: '70px', radius: 10 };
+    }
+    if (mobile) {
+      imageTransform = { width: '60px', radius: 10 };
+    }
 
-  let imageTransform;
-  if (desktopViewport) {
-    imageTransform = { width: '70px', radius: 10 };
-  }
-  if (tabletViewport) {
-    imageTransform = { width: '70px', radius: 10 };
-  }
-  if (smallViewport) {
-    imageTransform = { width: '60px', radius: 10 };
-  }
+    return imageTransform;
+  };
 
   if (showCart) blockScroll();
   if (!showCart) allowScroll();
@@ -98,7 +91,7 @@ const Cart = ({
                     <ImageRender
                       url={`products/${product.name.split(' ').join('-')}`}
                       path={product.image}
-                      transform={imageTransform}
+                      transform={imageTransform()}
                     />
                   </div>
 
@@ -158,6 +151,7 @@ const mapStateToProps = state => {
   return { cart: state.cartReducer };
 };
 
-export default connect(mapStateToProps, { updateCartAction, removeProductAction })(
-  Cart
-);
+export default connect(mapStateToProps, {
+  updateCartAction: cart.updateCartAction,
+  removeProductAction: cart.removeProductAction,
+})(Cart);

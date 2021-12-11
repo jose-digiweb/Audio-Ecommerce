@@ -5,17 +5,13 @@ import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import AboutSection from '../../reusables/AboutSection';
 
-const Layout = ({ isLogged, setIsLogged, setShowCart }) => {
+const Layout = () => {
   const { pathname } = useLocation();
   const isCheckout = () => pathname === '/checkout';
 
   return (
     <React.Fragment>
-      <Header
-        isLogged={isLogged}
-        setIsLogged={setIsLogged}
-        setShowCart={setShowCart}
-      />
+      <Header />
 
       <main className={`${isCheckout() ? '' : 'pb-32'} tablet:pb-20 mobile:pb-28`}>
         <Outlet />

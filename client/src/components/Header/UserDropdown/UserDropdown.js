@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import { logOutAction } from '../../../Redux/actions/authAction';
 import { NavLink } from 'react-router-dom';
 import ImageRender from '../../reusables/ImageRender';
+import { AppContext } from '../../../Contexts/AppContext';
 
-const UserDropdown = ({ currentUser, handleLogout, showUserMenu }) => {
+const UserDropdown = ({
+  currentUser,
+  setCurrentUser,
+  logOutAction,
+  showUserMenu,
+}) => {
+  const { setIsLogged } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logOutAction(navigate, setIsLogged, setCurrentUser);
+  };
+
   return (
     <div
       className={`${
@@ -45,4 +61,4 @@ const UserDropdown = ({ currentUser, handleLogout, showUserMenu }) => {
   );
 };
 
-export default UserDropdown;
+export default connect(null, { logOutAction })(UserDropdown);

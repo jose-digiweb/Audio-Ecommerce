@@ -1,0 +1,94 @@
+import React, { useContext, useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import _ from 'lodash';
+
+import { AppContext } from '../../../Contexts/AppContext';
+import ImageRender from '../../reusables/ImageRender';
+import UserDropdown from '../UserDropdown/UserDropdown';
+import { getUser } from '../../../helper';
+
+const UserSection = () => {
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+  const { setShowCart, isLogged } = useContext(AppContext);
+  const [currentUser, setCurrentUser] = useState(isLogged);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { loggedUser } = await getUser();
+
+      setCurrentUser(loggedUser);
+    })();
+  }, [isLogged]);
+
+  return (
+    <div className='flex items-center'>
+      <div
+        onClick={() => setShowCart(prev => !prev)}
+        className={`mr-8 mobile:mr-0 tablet:mr-8 cursor-pointer`}
+      >
+        {cartItems?.length > 0 ? (
+          <div className='flex items-center justify-center bg-red-500 rounded-full ml-2 py-cart-pop-y px-cart-pop-x text-white text-cart-pop absolute'>
+            {cartItems?.length}
+          </div>
+        ) : null}
+
+        <ImageRender url='dashboard/icons' path='cartWhite.svg' />
+      </div>
+
+      {_.isEmpty(currentUser) && (
+        <NavLink to='/auth'>
+          <span
+            className={`text-white hover:bg-primary-light ml-4 bg-primary px-4 py-2 mobile:p-0 mobile:bg-transparent`}
+          >
+            Sign In
+          </span>
+        </NavLink>
+      )}
+
+      {currentUser?.role === 'admin' && (
+        <NavLink to='/admin/dashboard'>
+          <button
+            className={`py-1 px-4 ml-8 border-2 text-black bg-white rounded hover:text-white hover:bg-black`}
+          >
+            Dashboard
+          </button>
+        </NavLink>
+      )}
+
+      {currentUser?.role === 'user' && (
+        <div
+          onClick={() => setShowUserMenu(prev => !prev)}
+          className='relative bg-primary ml-6 flex flex-col justify-center items-center rounded-full hover:bg-opacity-90 cursor-pointer'
+        >
+          {_.isEmpty(currentUser?.picture) ? (
+            <div className='w-10 h-10 flex justify-center items-center'>
+              <p className=''>
+                {`${currentUser?.name?.split(' ')[0][0]} ${
+                  currentUser?.name?.split(' ')[1][0]
+                }`}
+              </p>
+            </div>
+          ) : (
+            <div className='w-10 h-10 flex justify-center items-center'>
+              <ImageRender
+                url='users'
+                path={`/${currentUser?.picture?.picName}`}
+                transform={{ width: 40, radius: 'max' }}
+              />
+
+              <UserDropdown
+                currentUser={currentUser}
+                showUserMenu={showUserMenu}
+                setCurrentUser={setCurrentUser}
+              />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserSection;

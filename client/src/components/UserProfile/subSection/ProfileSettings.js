@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 
+import { AppContext } from '../../../Contexts/AppContext';
 import ImageUpload from '../../reusables/ImageUpload';
 import FormField from '../../reusables/FormField';
 import { getUser, setRenderMessage } from '../../../helper';
 import { updateMeAction } from '../../../Redux/actions/userAction';
 
-const ProfileSettings = ({
-  isLogged,
-  setIsLogged,
-  updateMeAction,
-  setShowMessage,
-}) => {
+const ProfileSettings = ({ updateMeAction }) => {
+  const { isLogged, setIsLogged, setShowMessage } = useContext(AppContext);
   const [initialValues, setInitialValues] = useState(isLogged?.loggedUser);
   const [picData, setPicData] = useState([isLogged?.loggedUser?.picture]);
   const [passwordReset, setPasswordReset] = useState(false);
@@ -70,7 +67,7 @@ const ProfileSettings = ({
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center pl-10 tablet:pl-0 tablet:justify-start mobile:pl-0 mobile:justify-start'>
+    <div className='w-full h-full flex flex-col items-center justify-center pt-24 pl-10 tablet:pl-0 tablet:justify-start mobile:pl-0 mobile:justify-start'>
       <Form initialValues={initialValues} validateOnBlur onSubmit={handleSubmit}>
         {({ values, handleSubmit }) => (
           <form className='w-full flex justify-center' onSubmit={handleSubmit}>

@@ -3,13 +3,13 @@ import { BrowserRouter } from 'react-router-dom';
 
 import SuccessModal from './SuccessModal/SuccessModal';
 import RenderMessage from './reusables/RenderMessage';
-
+import Cart from './Cart/Cart';
 import MyRoutes from '../Routes/MyRoutes';
 import { getUser } from '../helper';
-import Cart from './Cart/Cart';
+import { AppContext } from '../Contexts/AppContext';
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(getUser());
+  const [isLogged, setIsLogged] = useState({});
   const [showCart, setShowCart] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMessage, setShowMessage] = useState({ show: false, payload: {} });
@@ -21,22 +21,26 @@ const App = () => {
     })();
   }, []);
 
+  const contextValues = {
+    isLogged,
+    setIsLogged,
+    showCart,
+    setShowCart,
+    showSuccessModal,
+    setShowSuccessModal,
+    showMessage,
+    setShowMessage,
+  };
+
   return (
     <BrowserRouter>
-      <Cart setShowCart={setShowCart} showCart={showCart} />
-      <RenderMessage showMessage={showMessage} />
-      <SuccessModal
-        setShowSuccessModal={setShowSuccessModal}
-        showSuccessModal={showSuccessModal}
-      />
+      <AppContext.Provider value={contextValues}>
+        <Cart />
+        <RenderMessage />
+        <SuccessModal />
 
-      <MyRoutes
-        setShowSuccessModal={setShowSuccessModal}
-        setShowMessage={setShowMessage}
-        isLogged={isLogged}
-        setIsLogged={setIsLogged}
-        setShowCart={setShowCart}
-      />
+        <MyRoutes />
+      </AppContext.Provider>
     </BrowserRouter>
   );
 };

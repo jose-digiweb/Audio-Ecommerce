@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { createPortal } from 'react-dom';
 
-const RenderMessage = ({ showMessage }) => {
+import { AppContext } from '../../Contexts/AppContext';
+
+const RenderMessage = () => {
+  const { showMessage } = useContext(AppContext);
   const { show, payload } = showMessage;
 
   useEffect(() => {}, [showMessage]);

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
 
 import LogInForm from './form';
 import { logInAction, signupUserAction } from '../../Redux/actions/authAction';
+import { AppContext } from '../../Contexts/AppContext';
+import { View } from '../../helper';
 
-const Auth = ({ logInAction, signupUserAction, setIsLogged, setShowMessage }) => {
+const Auth = ({ logInAction, signupUserAction }) => {
   const [isSignUp, setIsSignUp] = useState(true);
-
-  const desktopViewport = useMediaQuery({ minWidth: 1280 });
-
+  const { setIsLogged, setShowMessage } = useContext(AppContext);
+  const { desktop } = View();
   const navigate = useNavigate();
 
   const handleSubmit = formData => {
@@ -18,7 +18,7 @@ const Auth = ({ logInAction, signupUserAction, setIsLogged, setShowMessage }) =>
       signupUserAction(formData, setShowMessage, setIsLogged, navigate);
     }
     if (isSignUp) {
-      logInAction(formData, navigate, setShowMessage, desktopViewport, setIsLogged);
+      logInAction(formData, navigate, setShowMessage, desktop, setIsLogged);
     }
   };
 

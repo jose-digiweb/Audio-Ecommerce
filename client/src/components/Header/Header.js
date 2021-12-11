@@ -1,87 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import TabletView from './ViewPorts/TabletView';
-import DesktopView from './ViewPorts/DesktopView';
-import MobileView from './ViewPorts/MobileView';
+import UserSection from './UserSection/UserSection';
+import Nav from './Nav/Nav';
+import ImageRender from '../reusables/ImageRender';
+import { headerStyle, View } from '../../helper';
 
-import { logOutAction } from '../../Redux/actions/authAction';
-import { headerStyle, getUser, View } from '../../helper';
-
-const Header = ({ logOutAction, setShowCart, cart, isLogged, setIsLogged }) => {
-  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-  const { desktop, tablet, mobile } = View();
-  const [currentUser, setCurrentUser] = useState(isLogged);
+const Header = ({ cart }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { tablet, mobile } = View();
+
+  useEffect(() => {}, [cart]);
 
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => {
-      const { loggedUser } = await getUser();
-
-      setCurrentUser(loggedUser);
-    })();
-  }, [location, isLogged, cart]);
-
-  const handleLogout = () => {
-    logOutAction(navigate, setIsLogged, setCurrentUser);
-  };
 
   return (
-    <header className={headerStyle()}>
-      <div
-        className={`container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:border-b-0`}
-      >
-        {desktop && (
-          <DesktopView
-            currentUser={currentUser}
-            showMenu={showMenu}
-            setShowMenu={setShowMenu}
-            showUserMenu={showUserMenu}
-            setShowUserMenu={setShowUserMenu}
-            setShowCart={setShowCart}
-            cartItems={cartItems}
-            isLogged={isLogged}
-            handleLogout={handleLogout}
-          />
+    <header className={headerStyle(location)}>
+      <div className='w-full container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:border-b-0'>
+        {tablet || mobile ? (
+          <div className='flex'>
+            <div onClick={() => setShowMenu(prev => !prev)} className='mr-8'>
+              <ImageRender url='dashboard/icons' path='menuMobile.svg' />
+            </div>
+
+            <NavLink to='/'>
+              <ImageRender url='shared/desktop' path='logo.svg' />
+            </NavLink>
+          </div>
+        ) : (
+          <NavLink to='/'>
+            <ImageRender url='shared/desktop' path='logo.svg' />
+          </NavLink>
         )}
 
-        {tablet && (
-          <TabletView
-            currentUser={currentUser}
-            showMenu={showMenu}
-            setShowMenu={setShowMenu}
-            setShowCart={setShowCart}
-            cartItems={cartItems}
-            isLogged={isLogged}
-            handleLogout={handleLogout}
-            showUserMenu={showUserMenu}
-            setShowUserMenu={setShowUserMenu}
-          />
-        )}
+        <Nav showMenu={showMenu} setShowMenu={setShowMenu} />
 
-        {mobile && (
-          <MobileView
-            setShowMenu={setShowMenu}
-            setShowCart={setShowCart}
-            cartItems={cartItems}
-            isLogged={isLogged}
-            handleLogout={handleLogout}
-            showMenu={showMenu}
-          />
-        )}
+        <UserSection />
       </div>
     </header>
   );
 };
-
 const mapStateToProps = state => {
   return { cart: state.cartReducer };
 };
-
-export default connect(mapStateToProps, { logOutAction })(Header);
+export default connect(mapStateToProps)(Header);
