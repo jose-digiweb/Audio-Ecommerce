@@ -7,11 +7,12 @@ import ImageRender from '../reusables/ImageRender';
 
 const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
   return (
-    <div className='w-1/2 px-20 flex flex-col justify-center tablet:w-full'>
+    <div className='w-1/2 px-20 flex flex-col justify-center mobile:w-full mobile:h-full mobile:px-0 tablet:w-full'>
       <Link to='/'>
         <div className='flex items-center'>
-          <ImageRender url='shared/desktop' path='arrow.svg' />
-          <p className='ml-2 font-bold text-white hover:text-primary tracking-widest'>
+          <ImageRender url='shared/desktop' path='arrowLeft.svg' />
+
+          <p className='ml-2 font-bold text-white hover:text-primary tracking-widest mobile:font-body'>
             Back
           </p>
         </div>
@@ -20,8 +21,13 @@ const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit }) => (
-          <form className='pt-10 max-w-md' onSubmit={handleSubmit}>
-            <h2 className='mb-14 text-white'>{isSignUp ? 'Sign In' : 'Sign Up'}</h2>
+          <form
+            className='pt-6 max-w-md mobile:pt-4 mobile:h-full'
+            onSubmit={handleSubmit}
+          >
+            <p className='mb-8 font-bold text-2xl text-white mobile:mb-6'>
+              {isSignUp ? 'Sign In' : 'Sign Up'}
+            </p>
 
             {!isSignUp ? (
               <div className='flex'>
@@ -91,21 +97,22 @@ const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
               </div>
             )}
 
-            <Button
-              styles='btn-primary rounded'
-              text={isSignUp ? 'Sign In' : 'Sign Up'}
-              type='submit'
-            />
+            <div className='flex items-center  mobile:items-start'>
+              <Button
+                styles='btn-primary mobile:w-full rounded mr-4'
+                text={isSignUp ? 'Sign In' : 'Sign Up'}
+                type='submit'
+              />
 
-            <div className='pt-10 text-white'>
-              {isSignUp ? 'Not registered yet? ' : 'Already have an account? '}
-              <button
-                type='button'
-                onClick={() => setIsSignUp(prev => !prev)}
-                className=' text-primary font-bold hover:text-primary-light'
-              >
-                {isSignUp ? 'Sign Up here!' : 'Sign In here!'}
-              </button>
+              <div className='flex flex-col text-white mobile:ml-4'>
+                <p>{isSignUp ? 'Not registered yet? ' : 'Already registered? '}</p>
+                <span
+                  onClick={() => setIsSignUp(prev => !prev)}
+                  className=' text-primary font-bold hover:text-primary-light cursor-pointer'
+                >
+                  {isSignUp ? 'Sign Up here!' : 'Sign In here!'}
+                </span>
+              </div>
             </div>
           </form>
         )}
