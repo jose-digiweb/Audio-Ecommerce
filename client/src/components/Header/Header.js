@@ -17,7 +17,7 @@ const Header = ({ cart }) => {
 
   return (
     <header className={headerStyle(location)}>
-      <div className='w-full container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:border-b-0'>
+      <div className='w-full container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:border-b-2 mobile:border-opacity-5'>
         {tablet || mobile ? (
           <div className='flex'>
             <div onClick={() => setShowMenu(prev => !prev)} className='mr-8'>

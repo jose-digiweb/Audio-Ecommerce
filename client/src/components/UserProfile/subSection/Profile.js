@@ -23,13 +23,17 @@ const Profile = () => {
       className={`w-full h-screen flex flex-col items-center justify-center pt-24 pl-10 tablet:pl-0 tablet:h-auto  mobile:pt-0 mobile:pl-0 mobile:h-auto`}
     >
       <div className='w-full flex flex-col justify-center bg-gray px-10 py-4 my-6 rounded-md mobile:px-4'>
-        <h5 className='mb-2 pb-2 border-b-2 mobile:text-center'>Last 3 orders</h5>
+        <p className='mb-2 pb-2 border-b-2 font-bold text-2xl mobile:text-lg mobile:text-center'>
+          Last 3 orders
+        </p>
 
         <RenderOrders purchases={purchases} />
 
         <div className='w-full flex mt-4'>
           {_.isEmpty(currentUser.purchases) ? (
-            <p className='rounded'>No orders to show.</p>
+            <p className='w-full font-body mobile:text-center'>
+              No orders to show yet...
+            </p>
           ) : null}
 
           {isLogged.loggedUser?.purchases?.length - 3 >= 1 && (

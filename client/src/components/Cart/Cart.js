@@ -102,7 +102,7 @@ const Cart = ({ updateCartAction, removeProductAction, cart }) => {
                         : product.name.split(' ')[0]}
                     </span>
                     <span className='text-gray-500 font-bold'>
-                      {`$ ${new Intl.NumberFormat().format(product.price)}`}
+                      {`$ ${formatNumber(product.price)}`}
                     </span>
                   </div>
                 </div>

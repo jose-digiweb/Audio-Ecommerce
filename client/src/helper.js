@@ -62,12 +62,11 @@ export const getUser = async () => {
 };
 
 export const headerStyle = location => {
-  if (location?.pathname === '/')
-    return 'w-full absolute top-0 left-0 z-40 mobile:border-b-2 mobile:border-opacity-10';
+  if (location?.pathname === '/') return 'w-full absolute top-0 left-0 z-40';
 
   //
   if (location?.pathname.startsWith('/users'))
-    return 'w-full absolute top-0 left-0 z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
+    return 'w-full absolute top-0 left-0 z-40 bg-black';
 
   //
   if (location?.pathname === '/auth') return 'hidden';
@@ -78,7 +77,7 @@ export const headerStyle = location => {
   //
   if (location?.pathname === '/success') return 'hidden';
   //
-  else return 'w-full z-40 bg-black mobile:border-b-2 mobile:border-opacity-10';
+  else return 'w-full z-40 bg-black';
 };
 
 export const useValidate = () => {

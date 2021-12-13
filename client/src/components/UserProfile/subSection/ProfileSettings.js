@@ -122,7 +122,7 @@ const ProfileSettings = ({ updateMeAction }) => {
                       Upload Profile Picture
                     </label>
                     <ImageUpload
-                      fileName={`${values.name.split(' ').join('-')}${
+                      fileName={`${values?.name?.split(' ')?.join('-')}${
                         Math.random() * 1000000
                       }`}
                       folderPath={`users`}

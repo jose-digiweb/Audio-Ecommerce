@@ -22,6 +22,10 @@ const UserSection = () => {
     })();
   }, [isLogged]);
 
+  const handleUserMenuClick = () => {
+    setShowUserMenu(prev => !prev);
+  };
+
   return (
     <div className='flex items-center'>
       <div
@@ -59,12 +63,12 @@ const UserSection = () => {
 
       {currentUser?.role === 'user' && (
         <div
-          onClick={() => setShowUserMenu(prev => !prev)}
+          onClick={handleUserMenuClick}
           className='relative bg-primary ml-6 flex flex-col justify-center items-center rounded-full hover:bg-opacity-90 cursor-pointer'
         >
           {_.isEmpty(currentUser?.picture) ? (
             <div className='w-10 h-10 flex justify-center items-center'>
-              <p className=''>
+              <p className='text-white'>
                 {`${currentUser?.name?.split(' ')[0][0]} ${
                   currentUser?.name?.split(' ')[1][0]
                 }`}
@@ -77,14 +81,14 @@ const UserSection = () => {
                 path={`/${currentUser?.picture?.picName}`}
                 transform={{ width: 40, radius: 'max' }}
               />
-
-              <UserDropdown
-                currentUser={currentUser}
-                showUserMenu={showUserMenu}
-                setCurrentUser={setCurrentUser}
-              />
             </div>
           )}
+
+          <UserDropdown
+            currentUser={currentUser}
+            showUserMenu={showUserMenu}
+            setCurrentUser={setCurrentUser}
+          />
         </div>
       )}
     </div>

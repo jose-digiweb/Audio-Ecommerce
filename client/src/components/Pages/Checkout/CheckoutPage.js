@@ -35,13 +35,18 @@ const CheckoutPage = () => {
 
   const handleSubmit = formData => {
     const saleData = {
-      user: currentUser.id,
+      user: currentUser?.id,
       products: products,
-      total,
+      total: total,
       paymentMethod: formData.paymentMethod,
       client: {
         name: formData.name,
         email: formData.email,
+        address: formData.address,
+        city: formData.city,
+        country: formData.country,
+        zipCode: formData.zipCode,
+        number: formData.number,
       },
     };
 
