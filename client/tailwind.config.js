@@ -274,6 +274,7 @@ module.exports = {
       cursor: ['hover', 'disabled'],
       backgroundColor: ['checked', 'active', 'disabled'],
       borderColor: ['checked', 'active'],
+      borderWidth: ['hover'],
       ringColor: ['hover', 'active', 'checked'],
       ringWidth: ['hover', 'active', 'checked'],
       ringOffsetWidth: ['hover', 'active', 'checked'],

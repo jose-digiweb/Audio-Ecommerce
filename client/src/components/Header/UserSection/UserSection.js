@@ -75,7 +75,7 @@ const UserSection = () => {
               </p>
             </div>
           ) : (
-            <div className='w-10 h-10 border-2 border-primary rounded-full flex justify-center items-center mobile:w-8 mobile:h-8'>
+            <div className='w-10 h-10 hover:border-2 hover:border-primary rounded-full flex justify-center items-center tablet:border-2 tablet:border-primary mobile:w-8 mobile:h-8 mobile:border-2 mobile:border-primary transition-all ease-in-out'>
               <ImageRender
                 url='users'
                 path={`/${currentUser?.picture?.picName}`}
