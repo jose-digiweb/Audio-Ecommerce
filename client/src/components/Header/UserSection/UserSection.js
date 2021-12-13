@@ -30,7 +30,7 @@ const UserSection = () => {
     <div className='flex items-center'>
       <div
         onClick={() => setShowCart(prev => !prev)}
-        className={`mr-8 mobile:mr-0 tablet:mr-8 cursor-pointer`}
+        className={`mr-4 mobile:mr-0 tablet:mr-8 cursor-pointer`}
       >
         {cartItems?.length > 0 ? (
           <div className='flex items-center justify-center bg-red-500 rounded-full ml-2 py-cart-pop-y px-cart-pop-x text-white text-cart-pop absolute'>
@@ -75,7 +75,7 @@ const UserSection = () => {
               </p>
             </div>
           ) : (
-            <div className='w-10 h-10 flex justify-center items-center'>
+            <div className='w-10 h-10 border-2 border-primary rounded-full flex justify-center items-center mobile:w-8 mobile:h-8'>
               <ImageRender
                 url='users'
                 path={`/${currentUser?.picture?.picName}`}

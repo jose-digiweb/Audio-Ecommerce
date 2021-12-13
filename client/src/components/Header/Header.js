@@ -17,14 +17,14 @@ const Header = ({ cart }) => {
 
   return (
     <header className={headerStyle(location)}>
-      <div className='w-full container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:border-b-2 mobile:border-opacity-5'>
+      <div className='w-full container flex justify-between items-center py-8 border-b-2 border-opacity-10 mobile:py-6 mobile:border-b-2 mobile:border-opacity-5'>
         {tablet || mobile ? (
-          <div className='flex'>
-            <div onClick={() => setShowMenu(prev => !prev)} className='mr-8'>
+          <div className='flex items-center'>
+            <div onClick={() => setShowMenu(prev => !prev)} className='mr-4'>
               <ImageRender url='dashboard/icons' path='menuMobile.svg' />
             </div>
 
-            <NavLink to='/'>
+            <NavLink to='/' className='mobile:w-32'>
               <ImageRender url='shared/desktop' path='logo.svg' />
             </NavLink>
           </div>
