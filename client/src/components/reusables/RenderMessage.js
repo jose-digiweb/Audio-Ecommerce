@@ -16,9 +16,11 @@ const RenderMessage = () => {
       }`}
     >
       <div
-        className={`w-1/2 rounded-b-md text-center bg-${payload.color}-600 px-8 py-4 shadow-md`}
+        className={`w-auto rounded-b-md text-center ${payload.color} px-8 py-4 tracking-wider shadow-md mobile:w-auto mobile:px-2 mobile:py-2`}
       >
-        <h6 className='text-white'>{payload.text}</h6>
+        <p className='font-body text-2xl text-white mobile:text-lg mobile:tracking-wide'>
+          {payload.text}
+        </p>
       </div>
     </div>,
     document.getElementById('root')

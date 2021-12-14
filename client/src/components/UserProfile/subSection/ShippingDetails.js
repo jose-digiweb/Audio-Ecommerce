@@ -7,8 +7,8 @@ import FormField from '../../reusables/FormField';
 import { getUser } from '../../../helper';
 import { updateMeAction } from '../../../Redux/actions/userAction';
 
-const ShippingDetails = ({ updateMeAction, setShowMessage }) => {
-  const { isLogged, setIsLogged } = useContext(AppContext);
+const ShippingDetails = ({ updateMeAction }) => {
+  const { isLogged, setIsLogged, setShowMessage } = useContext(AppContext);
   const [initialValues, setInitialValues] = useState(isLogged?.loggedUser?.address);
 
   useEffect(() => {
