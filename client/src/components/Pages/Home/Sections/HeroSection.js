@@ -18,12 +18,12 @@ const HeroSection = ({ products }) => {
       <div className='absolute top-0 left-0 w-full h-full bg-black opacity-40'></div>
 
       <div className='container flex justify-between tablet:justify-center mobile:justify-center'>
-        <div className='flex flex-col justify-center desktop:w-full desktop:max-w-md w-1/2 tablet:w-full tablet:items-center tablet:max-w-md mobile:w-full mobile:items-center mobile:text-center'>
+        <div className='flex flex-col justify-center z-10 desktop:w-full desktop:max-w-md w-1/2 tablet:w-full tablet:items-center tablet:max-w-md mobile:w-full mobile:items-center mobile:text-center'>
           <p className='text-white tracking-larger uppercase mb-4 opacity-60'>
             new product
           </p>
           <MediaQuery minWidth={500}>
-            <h1 className='text-white mb-8 uppercase tablet:text-center z-10'>
+            <h1 className='text-white mb-8 uppercase tablet:text-center '>
               {featuredProduct?.name}
             </h1>
           </MediaQuery>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from '../reusables/Button';
 import ImageRender from '../reusables/ImageRender';
 
-const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
+const LogInForm = ({ onSubmit, isSignUp, setIsSignUp, setShowResetPassword }) => {
   return (
     <div className='w-1/2 px-20 flex flex-col justify-center mobile:w-full mobile:h-full mobile:px-0 tablet:w-full'>
       <Link to='/'>
@@ -113,6 +113,20 @@ const LogInForm = ({ onSubmit, isSignUp, setIsSignUp }) => {
                   {isSignUp ? 'Sign Up here!' : 'Sign In here!'}
                 </span>
               </div>
+            </div>
+
+            <div className='text-white mt-4'>
+              {isSignUp && (
+                <p className='text-sm tracking-wider'>
+                  Forget your password?{' '}
+                  <span
+                    onClick={() => setShowResetPassword(true)}
+                    className='font-body cursor-pointer text-primary hover:underline'
+                  >
+                    Click Here!
+                  </span>
+                </p>
+              )}
             </div>
           </form>
         )}

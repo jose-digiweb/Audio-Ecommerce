@@ -58,16 +58,16 @@ const Cart = ({ updateCartAction, removeProductAction, cart }) => {
   return createPortal(
     <section
       onClick={() => setShowCart(prev => !prev)}
-      className={`w-full h-screen bg-black bg-opacity-50 absolute inset-0 mt-cart-top ${
-        showCart ? 'overflow-hidden' : 'hidden'
+      className={`w-full h-screen absolute bg-black bg-opacity-50 top-0 left-0 ${
+        showCart ? 'overflow-hidden z-50' : 'hidden'
       }`}
     >
       <div className='container w-full flex justify-end'>
         <div
           onClick={e => e.stopPropagation()}
-          className={`bg-white mt-10 p-6 rounded-lg`}
+          className={`bg-white mt-32 p-6 rounded-lg`}
         >
-          <div className='w-full flex justify-between items-center mb-10'>
+          <div className='w-full flex justify-between items-center border-b-2 border-opacity-40 pb-4 mb-10'>
             <h6 className='uppercase mobile:mr-4'>{`Cart(${products.length})`}</h6>
             {products.length > 0 ? (
               <span

@@ -10,6 +10,7 @@ import ProductPage from '../Components/Pages/ProductPage/ProductPage';
 import CheckoutPage from '../Components/Pages/Checkout/CheckoutPage';
 import Dashboard from '../Components/Dashboard/Dashboard';
 import Auth from '../Components/Auth/Auth';
+import ResetPassword from '../Components/Auth/ForgotPassword/ResetPassword';
 
 import Profile from '../Components/UserProfile/subSection/Profile';
 import MyOrders from '../Components/UserProfile/subSection/MyOrders';
@@ -39,6 +40,7 @@ const MyRoutes = () => {
       </Route>
 
       <Route path='/auth' element={<Auth />} />
+      <Route path='/forgot-password/:token' element={<ResetPassword />} />
 
       <Route path='/admin/dashboard' element={<Dashboard />} />
 

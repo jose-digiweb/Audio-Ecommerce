@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
       validator: function (passConfirm) {
         return passConfirm === this.password;
       },
-      message: `The passwords did not match! Please try again.`,
+      message: `Passwords did not match! Please try again.`,
     },
   },
   passwordChangedAt: Date,

@@ -11,6 +11,14 @@ import {
 } from './config';
 import * as API from './API/api';
 
+export const nameShortcut = name => {
+  const firstLetter = name.trim().split(' ').slice(0, 1)[0][0];
+  const secondLetter = name.trim().split(' ').slice(-1)[0][0];
+  const shortName = `${firstLetter} ${secondLetter}`;
+
+  return shortName;
+};
+
 export const setRenderMessage = (setShowMessage, message) => {
   setTimeout(() => {
     setShowMessage(prev => ({ ...prev, show: true }));

@@ -2,14 +2,17 @@ import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import LogInForm from './form';
+import LogInForm from './Form';
+import ForgotPassword from './ForgotPassword/ForgotPassword';
 import { logInAction, signupUserAction } from '../../Redux/actions/authAction';
 import { AppContext } from '../../Contexts/AppContext';
 import { View } from '../../helper';
 
 const Auth = ({ logInAction, signupUserAction }) => {
-  const [isSignUp, setIsSignUp] = useState(true);
   const { setIsLogged, setShowMessage } = useContext(AppContext);
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+
   const { desktop } = View();
   const navigate = useNavigate();
 
@@ -29,6 +32,12 @@ const Auth = ({ logInAction, signupUserAction }) => {
           onSubmit={handleSubmit}
           isSignUp={isSignUp}
           setIsSignUp={setIsSignUp}
+          setShowResetPassword={setShowResetPassword}
+        />
+
+        <ForgotPassword
+          showResetPassword={showResetPassword}
+          setShowResetPassword={setShowResetPassword}
         />
 
         <div className='mobile:hidden grid grid-cols-2 grid-rows-2 gap-4 w-1/2 h-screen p-28 tablet:hidden'>

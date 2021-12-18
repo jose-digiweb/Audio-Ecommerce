@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { AppContext } from '../../../Contexts/AppContext';
 import ImageRender from '../../reusables/ImageRender';
 import UserDropdown from '../UserDropdown/UserDropdown';
-import { getUser } from '../../../helper';
+import { getUser, nameShortcut } from '../../../helper';
 
 const UserSection = () => {
   const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -68,11 +68,7 @@ const UserSection = () => {
         >
           {_.isEmpty(currentUser?.picture) ? (
             <div className='w-10 h-10 flex justify-center items-center'>
-              <p className='text-white'>
-                {`${currentUser?.name?.split(' ')[0][0]} ${
-                  currentUser?.name?.split(' ')[1][0]
-                }`}
-              </p>
+              <p className='text-white'>{nameShortcut(currentUser?.name)}</p>
             </div>
           ) : (
             <div className='w-10 h-10 hover:border-2 hover:border-primary rounded-full flex justify-center items-center tablet:border-2 tablet:border-primary mobile:w-8 mobile:h-8 mobile:border-2 mobile:border-primary transition-all ease-in-out'>

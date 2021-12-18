@@ -86,3 +86,66 @@ export const newSale = async (saleData, setShowMessage, setShowSuccessModal) => 
     setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
   }
 };
+
+export const forgotPassword = async (
+  email,
+  setEmail,
+  setShowMessage,
+  setShowSuccessMessage
+) => {
+  try {
+    await API_NO_AUTH.post('users/forgot-password', { email });
+
+    setShowSuccessMessage(true);
+    setEmail('');
+  } catch (err) {
+    const { message } = err.response.data;
+
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
+  }
+};
+
+export const resetPassword = async (token, setAllowed) => {
+  try {
+    const res = await API_NO_AUTH.get(`users/forgot-password/${token}`);
+
+    setAllowed({ status: res.status, message: '' });
+
+    //
+  } catch (err) {
+    let message = err.response.data.message;
+
+    if (message.includes('expired')) {
+      message = 'This link has expired, please request a new one.';
+    } else if (message.includes('invalid signature')) {
+      message = 'This link has been compromised, please request a new one.';
+    } else message = 'Something went wrong. Please try to request a new link.';
+
+    console.log(message);
+
+    setAllowed({ status: err.response.status, message });
+  }
+};
+
+export const newPassword = async (data, setShowMessage, navigate) => {
+  try {
+    await API_NO_AUTH.post(`users/reset-password`, data);
+
+    setRenderMessage(setShowMessage, {
+      text: 'Password reset successfully!',
+      color: 'bg-green-600',
+    });
+
+    navigate('/auth');
+    //
+  } catch (err) {
+    let message = err.response.data.message;
+
+    if (message.includes('not match!')) message = message.split(':')[2].trim();
+    else message = 'Something went wrong. Please try again.';
+
+    console.log(message);
+
+    setRenderMessage(setShowMessage, config.ERROR_MESSAGE(message));
+  }
+};

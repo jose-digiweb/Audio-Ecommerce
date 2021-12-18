@@ -13,6 +13,7 @@
   "author": "Jose Furtado / JoseDigiweb",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

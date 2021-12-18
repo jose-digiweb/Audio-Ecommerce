@@ -1,5 +1,6 @@
 import util from 'util';
 import jwt from 'jsonwebtoken';
+import sendGrid from '@sendgrid/mail';
 
 import User from '../models/userModel.js';
 import Admin from '../models/adminModel.js';
@@ -161,3 +162,76 @@ export const restrictTo = (...roles) =>
 
     next();
   });
+
+export const passwordRecovery = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user)
+    return next(new globalError(404, 'Email does not exist in the database.'));
+
+  const token = jwt.sign({ id: user._id }, process.env.FORGET_PASSWORD_SECRET, {
+    expiresIn: process.env.FORGET_PASSWORD_EXPIRES,
+  });
+
+  const devLink = `http://localhost:3000/forgot-password/${token}`;
+  const prodLink = `https://audio-commerce.netlify.app//forgot-password/${token}`;
+
+  const markup = `
+    <div>
+      <h3>Please click the link bellow to reset your password.</h3>
+      <a href="${
+        process.env.NODE_ENV === 'production' ? prodLink : devLink
+      }" >Reset Password</a>
+    </div>
+  `;
+
+  const plainText = `Please click the link bellow to reset your password: ${
+    process.env.NODE_ENV === 'production' ? prodLink : devLink
+  }`;
+
+  const email = {
+    to: req.body.email,
+    from: 'josefurtado.digital@gmail.com',
+    subject: 'Audiophile: Password Reset!',
+    text: plainText,
+    html: markup,
+  };
+
+  sendGrid.setApiKey(process.env.SEND_GRID_API_KEY);
+  sendGrid
+    .send(email)
+    .then(() => console.log(`Email Sent successfully to ${email.to}`))
+    .catch(err => console.log('Email not sent, error: ', err));
+
+  res.status(200).json({ status: 'success' });
+});
+
+export const recoverPasswordUser = catchAsync(async (req, res, next) => {
+  const decodedToken = await util.promisify(jwt.verify)(
+    req.params.token,
+    process.env.FORGET_PASSWORD_SECRET
+  );
+
+  const user = await User.findById(decodedToken.id);
+
+  if (!user) return next(new globalError(404, 'No user found!'));
+
+  res.status(200).json({ status: 'success' });
+});
+
+export const resetPassword = catchAsync(async (req, res, next) => {
+  const decodedToken = await util.promisify(jwt.verify)(
+    req.body.token,
+    process.env.FORGET_PASSWORD_SECRET
+  );
+
+  const user = await User.findById(decodedToken.id);
+
+  if (!user || !decodedToken) return next(new globalError(404, 'No user found!'));
+
+  user.password = req.body.newPassword;
+  user.confirmPassword = req.body.confirmPassword;
+  await user.save();
+
+  res.status(200).json({ status: 'success' });
+});
