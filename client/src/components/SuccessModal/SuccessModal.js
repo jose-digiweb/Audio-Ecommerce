@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -28,10 +27,12 @@ const SuccessModal = ({ removeProductAction }) => {
   if (showSuccessModal) blockScroll();
   if (!showSuccessModal) allowScroll();
 
-  return createPortal(
+  return (
     <div
-      className={`absolute w-full h-screen flex justify-center items-center bg-black bg-opacity-50 inset-0 z-50 mobile:px-4 ${
-        showSuccessModal ? '' : 'hidden'
+      className={`${
+        showSuccessModal
+          ? 'hidden'
+          : 'absolute w-full h-screen flex justify-center items-center bg-black bg-opacity-50 inset-0 z-50 mobile:px-4'
       }`}
     >
       <div className='w-auto bg-white rounded-md p-10 mobile:p-6'>
@@ -117,8 +118,7 @@ const SuccessModal = ({ removeProductAction }) => {
           </button>
         </div>
       </div>
-    </div>,
-    document.getElementById('successModal')
+    </div>
   );
 };
 

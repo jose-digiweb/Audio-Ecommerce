@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import SuccessModal from './SuccessModal/SuccessModal';
 import RenderMessage from './reusables/RenderMessage';
 import Cart from './Cart/Cart';
 import MyRoutes from '../Routes/MyRoutes';
@@ -11,7 +10,7 @@ import { AppContext } from '../Contexts/AppContext';
 const App = () => {
   const [isLogged, setIsLogged] = useState({});
   const [showCart, setShowCart] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(true);
   const [showMessage, setShowMessage] = useState({ show: false, payload: {} });
 
   useEffect(() => {
@@ -37,7 +36,6 @@ const App = () => {
       <AppContext.Provider value={contextValues}>
         <Cart />
         <RenderMessage />
-        <SuccessModal />
 
         <MyRoutes />
       </AppContext.Provider>

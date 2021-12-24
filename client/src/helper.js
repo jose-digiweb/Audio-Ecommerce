@@ -113,6 +113,9 @@ export const useValidate = () => {
     if (values.paymentMethod === 'cashOnDelivery') {
       return valid && Object.keys(values).length > 7 ? true : false;
     }
+    if (values.paymentMethod === 'card') {
+      return valid && Object.keys(values).length > 7 ? true : false;
+    }
   };
 
   return [validateField, buttonValidation];

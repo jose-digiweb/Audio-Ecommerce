@@ -3,8 +3,10 @@ import axios from 'axios';
 import { setRenderMessage } from '../helper';
 import * as config from '../config';
 
-// const API = axios.create({ baseURL: 'http://localhost:3001/api/v1' });
-const API = axios.create({ baseURL: 'https://audiophille.herokuapp.com/api/v1' });
+const API = axios.create({
+  // baseURL: 'http://localhost:3001/api/v1',
+  baseURL: 'https://audiophille.herokuapp.com/api/v1',
+});
 
 const API_NO_AUTH = axios.create({
   // baseURL: 'http://localhost:3001/api/v1',
@@ -17,6 +19,16 @@ API.interceptors.request.use(req => {
 
   return req;
 });
+
+export const getSecret = async setStripeClientKey => {
+  try {
+    const { data } = await API_NO_AUTH.get('/sales/new-stripe');
+
+    setStripeClientKey(data.clientSecret);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const signupAdmin = (formData, handleMessage) =>
   API.post('/admin/signup', formData).catch(err => {
@@ -73,10 +85,16 @@ export const getUser = id =>
     console.log(message);
   });
 
-export const newSale = async (saleData, setShowMessage, setShowSuccessModal) => {
+export const newSale = async (
+  saleData,
+  setShowMessage,
+  setShowSuccessModal,
+  navigate
+) => {
   try {
     await API_NO_AUTH.post('/sales/new', saleData);
 
+    navigate('/checkout/success');
     setShowSuccessModal(prev => !prev);
     window.scroll(0, 0);
     //
@@ -141,8 +159,13 @@ export const newPassword = async (data, setShowMessage, navigate) => {
   } catch (err) {
     let message = err.response.data.message;
 
-    if (message.includes('not match!')) message = message.split(':')[2].trim();
-    else message = 'Something went wrong. Please try again.';
+    if (message.includes('Passwords did not')) {
+      message = 'Passwords did not match! Please try again.';
+    } else if (message.includes('You must enter')) {
+      message = 'You must enter and confirm your new password!';
+    } else {
+      message = 'Something went wrong. Please try again.';
+    }
 
     console.log(message);
 

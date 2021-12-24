@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useMediaQuery } from 'react-responsive';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 import _ from 'lodash';
 
+import StripeCheckout from './StripeApi/StripeCheckout';
 import { AppContext } from '../../../Contexts/AppContext';
 import * as API from '../../../API/api';
 import ImageRender from '../../reusables/ImageRender';
@@ -14,20 +17,27 @@ import {
   useValidate,
   imageTransform,
 } from '../../../helper';
+import * as config from '../../../config';
+
+const stripePromise = loadStripe(config.STRIPE_KEY);
 
 const CheckoutPage = () => {
   const products = JSON.parse(localStorage.getItem('cartItems')) || [];
-
+  const { setShowSuccessModal, setShowMessage } = useContext(AppContext);
   const [currentUser, setCurrentUser] = useState({});
+  const [stripeClientKey, setStripeClientKey] = useState('');
+  const [stripeErrorMessage, setStripeErrorMessage] = useState(null);
   const [total, grandTotal, vat, shippingCost] = cartCalc(products);
   const [validateField, buttonValidation] = useValidate();
-  const { setShowSuccessModal, setShowMessage } = useContext(AppContext);
 
+  const stripeRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       const { loggedUser } = await getUser();
+
+      API.getSecret(setStripeClientKey);
 
       setCurrentUser(loggedUser);
     })();
@@ -50,15 +60,37 @@ const CheckoutPage = () => {
       },
     };
 
-    API.newSale(saleData, setShowMessage, setShowSuccessModal);
+    if (formData.paymentMethod === 'card') {
+      stripeRef.current.handleSubmit();
+
+      if (stripeErrorMessage) return;
+      //
+    } else {
+      API.newSale(saleData, setShowMessage, setShowSuccessModal, navigate);
+    }
   };
 
   const deskView = useMediaQuery({ minWidth: 1280 });
   const tabletView = useMediaQuery({ minWidth: 501, maxWidth: 1279 });
   const smallView = useMediaQuery({ maxWidth: 500 });
 
+  const stripeOptions = {
+    clientSecret: stripeClientKey,
+    appearance: {
+      theme: 'stripe',
+
+      variables: {
+        colorPrimary: '#D87D4A',
+        colorText: '#000000',
+        fontFamily: 'Manrope, sans-serif',
+      },
+    },
+  };
+
   return (
     <section className='w-full bg-gray pb-24 pt-16 mobile:pt-6'>
+      <Outlet />
+
       <div className='container mb-8 '>
         <p
           onClick={() => navigate(-1)}
@@ -67,7 +99,6 @@ const CheckoutPage = () => {
           Go Back
         </p>
       </div>
-
       <Form
         initialValues={{
           name: _.isEmpty(currentUser) ? '' : currentUser.name,
@@ -348,15 +379,25 @@ const CheckoutPage = () => {
                         />
                       </div>
                       <p className='opacity-70 pr-6 mobile:pr-0'>
-                        The ‘Cash on Delivery’ option enables you to pay in cash when
+                        The "Cash on Delivery" option enables you to pay in cash when
                         our delivery courier arrives at your residence. Just make
                         sure your address is correct so that your order will not be
                         cancelled.
                       </p>
                     </div>
                   )}
+
+                  {values?.paymentMethod === 'card' && stripeClientKey && (
+                    <Elements stripe={stripePromise} options={stripeOptions}>
+                      <StripeCheckout
+                        ref={stripeRef}
+                        setStripeErrorMessage={setStripeErrorMessage}
+                      />
+                    </Elements>
+                  )}
                 </div>
               </div>
+
               <div className='w-1/3 bg-white rounded-md p-6 tablet:w-full mobile:w-full'>
                 <div className='mb-8'>
                   <h5 className='uppercase'>summary</h5>

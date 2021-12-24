@@ -174,7 +174,7 @@ export const passwordRecovery = catchAsync(async (req, res, next) => {
   });
 
   const devLink = `http://localhost:3000/forgot-password/${token}`;
-  const prodLink = `https://audio-commerce.netlify.app//forgot-password/${token}`;
+  const prodLink = `https://audio-commerce.netlify.app/forgot-password/${token}`;
 
   const markup = `
     <div>

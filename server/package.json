@@ -32,6 +32,7 @@
     "multer": "^1.4.3",
     "nodemon": "^2.0.13",
     "slugify": "^1.6.1",
+    "stripe": "^8.194.0",
     "validator": "^13.6.0"
   },
   "engines": {

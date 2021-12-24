@@ -5,6 +5,7 @@ import cors from 'cors';
 import compression from 'compression';
 
 //==> REQUESTING MODULES
+import { stripeWebhook } from './controllers/salesController.js';
 import productRouter from './routes/productRoutes.js';
 import salesRouter from './routes/salesRoutes.js';
 import userRouter from './routes/userRoutes.js';
@@ -21,12 +22,15 @@ if (process.env.NODE_ENV === 'development') app.use(morgan(`dev`));
 //==> GLOBAL MIDDLEWARES
 app.use(cors());
 
-// Defining the Json as standard
-app.use(express.json({ limit: '10mb' }));
-
 app.use(compression());
 
 //==> CREATING ROUTES
+// Stripe Checkout
+app.post('/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
+
+// Defining the Json as standard
+app.use(express.json({ limit: '10mb' }));
+
 // Product Router
 app.use('/api/v1/products', productRouter);
 

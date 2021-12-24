@@ -11,6 +11,7 @@ import CheckoutPage from '../Components/Pages/Checkout/CheckoutPage';
 import Dashboard from '../Components/Dashboard/Dashboard';
 import Auth from '../Components/Auth/Auth';
 import ResetPassword from '../Components/Auth/ForgotPassword/ResetPassword';
+import SuccessModal from '../Components/SuccessModal/SuccessModal';
 
 import Profile from '../Components/UserProfile/subSection/Profile';
 import MyOrders from '../Components/UserProfile/subSection/MyOrders';
@@ -28,7 +29,9 @@ const MyRoutes = () => {
         <Route path='speakers' element={<Speakers />} />
         <Route path='earphones' element={<Earphones />} />
         <Route path='product/:slug' element={<ProductPage />} />
-        <Route path='checkout' element={<CheckoutPage />} />
+        <Route path='checkout' element={<CheckoutPage />}>
+          <Route path='success' element={<SuccessModal />} />
+        </Route>
       </Route>
 
       <Route path='/users' element={<UserProfile />}>

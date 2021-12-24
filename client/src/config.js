@@ -25,3 +25,6 @@ export const SUCCESS_SIGNUP = {
 export const ERROR_MESSAGE = message => {
   return { text: message, color: 'bg-red-600' };
 };
+
+export const STRIPE_KEY =
+  'pk_test_51JvkAEIEt9TMRCX6mvHJhBrftJ7MWuY4aUtAHjglaGyBm2jxrdaaD5OGs8vPLyAHOUrcYQeJaQ9vCupTcDrgqRFu00eBfMz3nY';

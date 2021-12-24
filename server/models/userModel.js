@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-
+    trim: true,
     //Validators
     required: [true, 'You must enter a Name'],
     maxLength: 20,
@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     lowercase: true,
+    trim: true,
 
     //Validators
     required: [true, 'You must enter an Email'],
