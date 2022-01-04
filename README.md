@@ -43,6 +43,7 @@ Users should be able to:
 - [React Final Form](https://final-form.org/react) - subscription-based form state management for React
 - [Dropzone](https://www.dropzone.dev/js/) - Files Uploader
 - [Imagekit](https://imagekit.io/) - Assets manager and deliver in the web
+- [Stripe](https://stripe.com/) - APIs to accept payments, send payouts, and manage businesses online.
 - [Axios](https://axios-http.com/) - Promise based HTTP client for the browser and node.js
 
 #### Back-end:
@@ -50,6 +51,8 @@ Users should be able to:
 - [Express](https://expressjs.com/) - Node-js framework
 - [Mongodb](https://www.mongodb.com/) - Database
 - [Mongoose](https://mongoosejs.com/) - Mongodb object modeling for Node.js
+- [Stripe](https://stripe.com/) - APIs to accept payments, send payouts, and manage businesses online.
+- [Sandgrid](https://sendgrid.com/) - Email API.
 
 ## Author
 
