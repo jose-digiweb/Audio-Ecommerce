@@ -2,13 +2,12 @@
   "name": "client",
   "version": "1.0.0",
   "private": true,
-  "proxy": "https://audiophille.herokuapp.com/",
+  "proxy": "https://apiaudiophile.herokuapp.com/",
   "dependencies": {
-    "@craco/craco": "^5.9.0",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
-    "@tailwindcss/aspect-ratio": "^0.3.0",
-    "@tailwindcss/forms": "^0.3.4",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -29,7 +28,7 @@
     "react-redux": "^7.2.5",
     "react-responsive": "^9.0.0-beta.4",
     "react-router-dom": "^6.0.2",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.0",
     "react-spring": "^9.3.0",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
@@ -38,9 +37,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -62,8 +61,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.8",
-    "postcss": "^7.0.39",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.7"
   }
 }

@@ -118,7 +118,11 @@ export const useValidate = () => {
     }
   };
 
-  return [validateField, buttonValidation];
+  const paymentMethod = (valid, values) => {
+    return valid && Object.keys(values).length > 6 ? true : false;
+  };
+
+  return [validateField, buttonValidation, paymentMethod];
 };
 
 export const imageTransform = (desk, tab, small) => {

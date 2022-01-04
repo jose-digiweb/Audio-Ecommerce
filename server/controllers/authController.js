@@ -6,6 +6,7 @@ import User from '../models/userModel.js';
 import Admin from '../models/adminModel.js';
 import catchAsync from '../utils/catchAsyncError.js';
 import globalError from '../utils/globalError.js';
+import emailSender from '../utils/emailSender.js';
 
 const generateJwtToken = id =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -189,19 +190,7 @@ export const passwordRecovery = catchAsync(async (req, res, next) => {
     process.env.NODE_ENV === 'production' ? prodLink : devLink
   }`;
 
-  const email = {
-    to: req.body.email,
-    from: 'josefurtado.digital@gmail.com',
-    subject: 'Audiophile: Password Reset!',
-    text: plainText,
-    html: markup,
-  };
-
-  sendGrid.setApiKey(process.env.SEND_GRID_API_KEY);
-  sendGrid
-    .send(email)
-    .then(() => console.log(`Email Sent successfully to ${email.to}`))
-    .catch(err => console.log('Email not sent, error: ', err));
+  emailSender(req.body.email, 'Password Reset!', plainText, markup);
 
   res.status(200).json({ status: 'success' });
 });

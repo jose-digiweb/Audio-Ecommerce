@@ -11,7 +11,7 @@ process.on('uncaughtException', err => {
 
 //==> CONNECTING ENV FILE
 import dotenv from 'dotenv';
-dotenv.config({ path: `./config.env` });
+dotenv.config({ path: `./.env` });
 
 //==> REQUESTING MODULES
 import app from './app.js';

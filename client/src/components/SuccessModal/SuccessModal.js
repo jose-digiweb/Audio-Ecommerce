@@ -20,19 +20,19 @@ const SuccessModal = ({ removeProductAction }) => {
 
   const handleButtonClick = () => {
     removeProductAction();
-    setShowSuccessModal(prev => !prev);
+    setShowSuccessModal(false);
+    allowScroll();
     navigate('/');
   };
 
-  if (showSuccessModal) blockScroll();
-  if (!showSuccessModal) allowScroll();
+  blockScroll();
 
   return (
     <div
       className={`${
         showSuccessModal
-          ? 'hidden'
-          : 'absolute w-full h-screen flex justify-center items-center bg-black bg-opacity-50 inset-0 z-50 mobile:px-4'
+          ? 'absolute w-full h-screen flex justify-center items-center bg-black bg-opacity-50 inset-0 z-50 mobile:px-4'
+          : 'hidden'
       }`}
     >
       <div className='w-auto bg-white rounded-md p-10 mobile:p-6'>

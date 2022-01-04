@@ -28,7 +28,7 @@ const CheckoutPage = () => {
   const [stripeClientKey, setStripeClientKey] = useState('');
   const [stripeErrorMessage, setStripeErrorMessage] = useState(null);
   const [total, grandTotal, vat, shippingCost] = cartCalc(products);
-  const [validateField, buttonValidation] = useValidate();
+  const [validateField, buttonValidation, paymentMethod] = useValidate();
 
   const stripeRef = useRef(null);
   const navigate = useNavigate();
@@ -37,17 +37,35 @@ const CheckoutPage = () => {
     (async () => {
       const { loggedUser } = await getUser();
 
-      API.getSecret(setStripeClientKey);
-
       setCurrentUser(loggedUser);
     })();
   }, []);
 
+  const visaHandle = async formData => {
+    const saleData = {
+      products: products,
+      total: grandTotal,
+      user: currentUser?.id,
+      paymentMethod: 'card',
+      client: {
+        name: formData.name,
+        email: formData.email,
+        address: formData.address,
+        city: formData.city,
+        country: formData.country,
+        zipCode: formData.zipCode,
+        number: formData.number,
+      },
+    };
+
+    API.getSecret(saleData, setStripeClientKey);
+  };
+
   const handleSubmit = formData => {
     const saleData = {
-      user: currentUser?.id,
       products: products,
-      total: total,
+      total: grandTotal,
+      user: currentUser?.id,
       paymentMethod: formData.paymentMethod,
       client: {
         name: formData.name,
@@ -103,10 +121,14 @@ const CheckoutPage = () => {
         initialValues={{
           name: _.isEmpty(currentUser) ? '' : currentUser.name,
           email: _.isEmpty(currentUser) ? '' : currentUser.email,
-          address: _.isEmpty(currentUser) ? '' : currentUser.address.street,
-          zipCode: _.isEmpty(currentUser) ? '' : `${currentUser.address.zipCode}`,
-          city: _.isEmpty(currentUser) ? '' : currentUser.address.city,
-          country: _.isEmpty(currentUser) ? '' : currentUser.address.country,
+          address: _.isEmpty(currentUser.address) ? '' : currentUser.address.street,
+          zipCode: _.isEmpty(currentUser?.address)
+            ? ''
+            : `${currentUser.address.zipCode}`,
+          city: _.isEmpty(currentUser?.address) ? '' : currentUser.address.city,
+          country: _.isEmpty(currentUser?.address)
+            ? ''
+            : currentUser.address.country,
         }}
         validateOnBlur
         onSubmit={handleSubmit}
@@ -306,43 +328,55 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className='w-full flex flex-col'>
-                      <label className='checkoutInputField font-bold mb-4'>
-                        <Field
-                          name='paymentMethod'
-                          type='radio'
-                          component='input'
-                          value='eMoney'
-                          placeholder='hey'
-                          className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
-                        />
-                        e-Money
-                      </label>
+                      {paymentMethod(valid, values) ? (
+                        <>
+                          <label className='checkoutInputField font-bold mb-4'>
+                            <Field
+                              name='paymentMethod'
+                              type='radio'
+                              component='input'
+                              value='eMoney'
+                              placeholder='hey'
+                              className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
+                            />
+                            e-Money
+                          </label>
 
-                      <div className='checkoutInputField mb-4'>
-                        <Field
-                          name='paymentMethod'
-                          type='radio'
-                          component='input'
-                          value='cashOnDelivery'
-                          className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
-                        />
-                        <label className='font-bold'>Cash on Delivery</label>
-                      </div>
+                          <div className='checkoutInputField mb-4'>
+                            <Field
+                              name='paymentMethod'
+                              type='radio'
+                              component='input'
+                              value='cashOnDelivery'
+                              className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
+                            />
+                            <label className='font-bold'>Cash on Delivery</label>
+                          </div>
 
-                      <div className='checkoutInputField flex items-center'>
-                        <Field
-                          name='paymentMethod'
-                          type='radio'
-                          component='input'
-                          value='card'
-                          className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
-                        />
-                        <ImageRender
-                          url='shared/desktop'
-                          path='visa.png'
-                          transform={{ width: '40px', height: '27px' }}
-                        />
-                      </div>
+                          <div className='checkoutInputField flex items-center'>
+                            <Field
+                              name='paymentMethod'
+                              type='radio'
+                              component='input'
+                              value='card'
+                              onClick={() => visaHandle(values)}
+                              className='appearance-none mr-4 ml-2 w-2 h-2 rounded-full  ring-2 ring-gray-200 ring-offset-2 checked:bg-primary cursor-pointer'
+                            />
+                            <ImageRender
+                              url='shared/desktop'
+                              path='visa.png'
+                              transform={{ width: '40px', height: '27px' }}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <div>
+                          <p>
+                            Please fill all the information to choose a "Payment
+                            Method".
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
 

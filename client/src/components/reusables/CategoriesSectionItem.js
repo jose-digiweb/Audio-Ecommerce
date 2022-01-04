@@ -40,7 +40,7 @@ const CategoriesSectionItem = ({ url, path, text, goTo, styles }) => {
 
         <NavLink to={goTo}>
           <Button styles='btn-shop mb-4 tablet:mb-2' type='button' text='shop'>
-            <ImageRender url='shared/desktop' path='arrow.svg' />
+            <ImageRender url='shared/desktop' path='arrowRight.svg' />
           </Button>
         </NavLink>
       </div>

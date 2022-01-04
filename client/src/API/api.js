@@ -5,12 +5,12 @@ import * as config from '../config';
 
 const API = axios.create({
   // baseURL: 'http://localhost:3001/api/v1',
-  baseURL: 'https://audiophille.herokuapp.com/api/v1',
+  baseURL: 'https://apiaudiophile.herokuapp.com/api/v1',
 });
 
 const API_NO_AUTH = axios.create({
   // baseURL: 'http://localhost:3001/api/v1',
-  baseURL: 'https://audiophille.herokuapp.com/api/v1',
+  baseURL: 'https://apiaudiophile.herokuapp.com/api/v1',
 });
 
 API.interceptors.request.use(req => {
@@ -20,13 +20,13 @@ API.interceptors.request.use(req => {
   return req;
 });
 
-export const getSecret = async setStripeClientKey => {
+export const getSecret = async (saleData, setStripeClientKey) => {
   try {
-    const { data } = await API_NO_AUTH.get('/sales/new-stripe');
+    const { data } = await API_NO_AUTH.post('/sales/stripe-checkout', saleData);
 
     setStripeClientKey(data.clientSecret);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 };
 
@@ -94,8 +94,8 @@ export const newSale = async (
   try {
     await API_NO_AUTH.post('/sales/new', saleData);
 
-    navigate('/checkout/success');
     setShowSuccessModal(prev => !prev);
+    navigate('/checkout/success');
     window.scroll(0, 0);
     //
   } catch (err) {

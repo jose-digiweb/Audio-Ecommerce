@@ -16,6 +16,8 @@ import GlobalError from './utils/globalError.js';
 //==> STARTING THE APPLICATION
 const app = express();
 
+app.enable('trust proxy');
+
 // logging the logger info
 if (process.env.NODE_ENV === 'development') app.use(morgan(`dev`));
 
@@ -34,7 +36,7 @@ app.use(express.json({ limit: '10mb' }));
 // Product Router
 app.use('/api/v1/products', productRouter);
 
-// Sell Router
+// Sales Router
 app.use('/api/v1/sales', salesRouter);
 
 // User Router
